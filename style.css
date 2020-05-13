@@ -72,3 +72,9 @@ img.icon:hover{
   background-color: white;
   filter: invert(100%);
 }
+
+
+::selection{
+  background: #df281c;
+  color: white;
+}
