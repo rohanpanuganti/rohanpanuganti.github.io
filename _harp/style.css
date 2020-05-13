@@ -25,6 +25,10 @@ ul.a {
   text-align: right;
 }
 
+p{
+  font-size: 20px;
+}
+
 a {
   color: inherit;
   text-decoration: none;
