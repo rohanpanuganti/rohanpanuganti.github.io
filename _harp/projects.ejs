@@ -1,13 +1,28 @@
 <!DOCTYPE html>
 <html>
-    <%- partial("partials/_header") %>
+<%- partial("partials/_header") %>
 
 <body>
     <%- partial("partials/_nav") %>
-
+    
     <div class="page">
         <header>Projects</header>
-        <p>Projects are coming soon!</p>
+        <div class=row>
+            <div class="column left">
+                <% for(let i = public.projects._contents.length-1; -1 < i; i--){ %>
+                <%  let file = public.projects._contents[i] %>
+
+                <p>
+                    <a onclick='document.getElementById("content").innerHTML = `<%- partial("projects/"+ file ) %>` '
+                        target="_blank">
+                        <%= file.replace(".html", "") %>
+                    </a>
+                </p>
+
+                <% } %>
+            </div>
+            <div class="column right" id="content">  <p>Check out a project!</p></div>
+        </div>
     </div>
 
     <%- partial("partials/_footer") %>

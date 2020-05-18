@@ -7,7 +7,22 @@
 
     <div class="page">
         <header>Posts</header>
-        <p>I will make posts here eventually!</p>
+        <div class=row>
+            <div class="column left">
+                <% for(let i = public.posts._contents.length-1; -1 < i; i--){ %>
+                <%  let file = public.posts._contents[i] %>
+
+                <p>
+                    <a onclick='document.getElementById("content").innerHTML = `<%- partial("posts/"+ file ) %>` '
+                        target="_blank">
+                        <%= file.replace(".html", "") %>
+                    </a>
+                </p>
+
+                <% } %>
+            </div>
+            <div class="column right" id="content"> <p> Check out a post! </p></div>
+        </div>
     </div>
 
     <%- partial("partials/_footer") %>

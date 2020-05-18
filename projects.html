@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-    <head>
+<head>
     <link rel="stylesheet" href="style.css">
     <meta name="title" content="Rohan Panuganti">
     <meta name="description" content="This is a website for my stuff!">
@@ -22,10 +22,46 @@
           </ul>
       </div>
   </nav>
-
+    
     <div class="page">
         <header>Projects</header>
-        <p>Projects are coming soon!</p>
+        <div class=row>
+            <div class="column left">
+                
+                
+
+                <p>
+                    <a onclick='document.getElementById("content").innerHTML = `<h1>Seattle University File System</h1><p><a href="https://github.com/rpanu/SUFS">https://github.com/rpanu/SUFS</a></p>
+<h2>What is this?</h2><p>The Seattle University File System is a distributed file system that is built with NodeJS and is hosted on AWS.</p>
+<h2>How does it work?</h2><p>The client pulls a file from S3 and breaks it down into blocks. Each block is assigned a blockID and has three copies stored across multiple DataNodes. The list of blockIDs that correspond to a single file, is stored in the NameNode. At any point the user can request a specific file and it can be pulled from the DataNodes, block by block, where it will be reassembled in the client. </p>
+<h2>What if something goes wrong?</h2><p>Since SUFS is akin to a Hadoop Distributed File System, it also has a similar fault-tolerance system. To ensure that none of the DataNodes have failed, each DataNode sends the NameNode a blockReport which contains information about the blocks it contains. The NameNode has a timer in place that resets every time a blockReport is received. If a DataNode fails, that timer runs out and the NameNode is aware of exactly which node has failed. Since there are multiple block copies distributed across the DataNodes, the NameNode uses the failed node&#39;s last blockReport to replicate all the blocks that were lost.</p>
+` '
+                        target="_blank">
+                        2_SUFS
+                    </a>
+                </p>
+
+                
+                
+
+                <p>
+                    <a onclick='document.getElementById("content").innerHTML = `<h1>REDACTED</h1><p><a href="https://github.com/rpanu/REDACTED">https://github.com/rpanu/REDACTED</a></p>
+<h2>What is this?</h2><p>REDACTED was a finalist for HackSU 2020. It was developed in NodeJS and used SocketIO. </p>
+<h2>What does it do?</h2><p>The theme of the hackathon was &#39;Technology in Society&#39;, so we decided to create a technology that said alot about society. REDACTED is a single room chat application that allows its users to censor certain words, for everyone. When the chat first starts up, it has no redacted words, SO the users can types whatever they want. If a user deems a word offensive, they can type  </p>
+<blockquote>
+<p>REDACT [insert word]</p>
+</blockquote>
+<p>After that, if a user tries to use that word, it will be redacted when it pop up in the chat. This forces users to find new ways of communicating without certain words. </p>
+<h2>What does it look like?</h2><img alt="REDACTED Website Visual" src="https://github.com/rpanu/REDACTED/blob/master/images/redacted.PNG?raw=true" width="800">` '
+                        target="_blank">
+                        1_HackSU2020
+                    </a>
+                </p>
+
+                
+            </div>
+            <div class="column right" id="content">  <p>Check out a project!</p></div>
+        </div>
     </div>
 
     <footer>
