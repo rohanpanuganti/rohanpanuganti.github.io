@@ -1,5 +1,5 @@
 # REDACTED
-https://github.com/rpanu/REDACTED
+ <a href="https://github.com/rpanu/REDACTED" target="_blank">https://github.com/rpanu/REDACTED</a>
 
 ## What is this?
 REDACTED was a finalist for HackSU 2020. It was developed in NodeJS and used SocketIO. 

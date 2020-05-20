@@ -1,5 +1,6 @@
 # Seattle University File System
-https://github.com/rpanu/SUFS
+ <a href="https://github.com/rpanu/SUFS" target="_blank">https://github.com/rpanu/SUFS</a>
+
 
 ## What is this?
 The Seattle University File System is a distributed file system that is built with NodeJS and is hosted on AWS.
