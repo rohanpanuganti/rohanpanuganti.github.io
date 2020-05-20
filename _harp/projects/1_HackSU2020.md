@@ -12,4 +12,4 @@ The theme of the hackathon was 'Technology in Society', so we decided to create 
 After that, if a user tries to use that word, it will be redacted when it pop up in the chat. This forces users to find new ways of communicating without certain words. 
 
 ## What does it look like?
-<img alt="REDACTED Website Visual" src="https://github.com/rpanu/REDACTED/blob/master/images/redacted.PNG?raw=true" width="800">
+<img alt="REDACTED Website Visual" src="https://github.com/rpanu/REDACTED/blob/master/images/redacted.PNG?raw=true" width=100%>
