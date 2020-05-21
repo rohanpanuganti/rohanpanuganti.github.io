@@ -13,7 +13,7 @@
                 <%  let file = public.posts._contents[i] %>
 
                 <p>
-                    <a onclick='document.getElementById("content").innerHTML = `<%- partial("posts/"+ file ) %>` '
+                    <a onclick='document.getElementById("content").innerHTML = `<%- partial("posts/"+ file ) %>`; window.scrollTo(0, 0); '
                         target="_blank">
                         <%= file.replace(".html", "") %>
                     </a>
