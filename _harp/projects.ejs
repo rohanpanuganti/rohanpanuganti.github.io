@@ -13,8 +13,8 @@
                 <%  let file = public.projects._contents[i] %>
 
                 <p>
-                    <a onclick='document.getElementById("content").innerHTML = `<%- partial("projects/"+ file ) %>`; window.scrollTo(0, 0);'
-                        target="_blank">
+                    <a onclick='document.getElementById("content").innerHTML = `<%- partial("projects/"+ file ) %>`;
+                    window.scrollTo(0, 0);'>
                         <%= file.replace(".html", "") %>
                     </a>
                 </p>
