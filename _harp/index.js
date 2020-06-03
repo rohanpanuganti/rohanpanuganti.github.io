@@ -58,3 +58,7 @@ window.onload = function () {
     css.innerHTML = ".typewrite > .wrap { border-right: 0.08em solid #fff}";
     document.body.appendChild(css);
 };
+
+if (window.location.hash){
+    document.getElementById(location.hash.replace('#/', "")).click();
+} 

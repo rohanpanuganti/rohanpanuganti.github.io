@@ -14,7 +14,8 @@
 
                 <p>
                     <a onclick='document.getElementById("content").innerHTML = `<%- partial("posts/"+ file ) %>`; 
-                        window.scrollTo(0, 0); window.location.hash = `#/<%= file.replace(".html", "") %>`' id='<%= file %>'>
+                        window.scrollTo(0, 0); window.location.hash = `#/<%= file.replace(".html", "") %>`' 
+                        id='<%= file.replace(".html", "") %>'>
                         <%= file.replace(".html", "") %>
                     </a>
                 </p>
