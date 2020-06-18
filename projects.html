@@ -33,6 +33,40 @@
                 
 
                 <p>
+                    <a onclick='document.getElementById("content").innerHTML = `<h1>AWS Cumulus (EC2 Profiler)</h1><h2>What is this?</h2><p>For my senior capstone project at Seattle University, I was given the great opportunity of working
+with Amazon Web Services. My team built a NodeJS application that benchmarked EC2 instances.</p>
+<h2>Why is it needed?</h2><p>AWS is the world&#39;s largest cloud computing provider, and in order to have such a high approval
+rating, they need to make sure all their systems work well for their customers. EC2, or Elastic Cloud Computing, provides users with over a hundred different types of instances. Finding the 
+best one may be a bit of a daunting task. Luckily AWS is working on a good recommendation system 
+to help its customers. In order to help these hardworking engineers, we created AWS Cumulus. This
+product simply automates the configuring, running, and deploying of test applications across multiple
+instances. While the application runs, we track the metrics of each instances and store them. 
+The data produced will aid in training machine learning models. </p>
+<h2>How does it work?</h2><p>AWS Cumulus takes an object oriented design while using multiple AWS products.
+We use three object types: </p>
+<blockquote>
+<p>Instances - cloud computers provided by AWS as EC2. We are testing these.</p>
+</blockquote>
+<blockquote>
+<p>Workloads - a user specified application that is designed to test EC2 instances, there are two types, workloads that run on instances and load-generators that generate traffic to instances </p>
+</blockquote>
+<blockquote>
+<p>Benchmark - refers to one run of the whole Cumulus system, that means running a workloads across multiple instances all while its metrics are tracked.</p>
+</blockquote>
+<p>We use AWS Cloudwatch to track utilization data on instances. Cumulus configures CW and the instances using SSM, or Simple Storage Service. This allows us to securely send commands to instances and start/stop workloads. So after the workload stops running, the metrics we tracked are stored in S3, or Simple Storage Service. The data stored as a CSV and is easily accessible. It is also imporant to note that workloads can be stored in S3 for fluid deployment. The objects in this system are stored in DynamoDB. This means state and pass/fail criteria can easily be viewed and tracked by users. All of these products can securely work together thanks to AWS IAM. We have completed automated permissions using the IAM SDK. 
+<img alt="Cumulus System Overview" src="icons/System Overview.png" width="100%"></p>
+<h2>Is it done where is it?</h2><p>AWS Cumulus is now in the hands of AWS Engineers. While this is a powerful tool, it is not practical for non-AWS developers simply because it is expensive to run large scale workloads. However, the future of Cumulus is bright as the cloud becomes an increasing dependency. The recommendation system will definitely need constant improvments. </p>
+`;
+                        window.scrollTo(0, 0); window.location.hash = `#/3_AWSCapstone`' 
+                        id='3_AWSCapstone'>
+                        3_AWSCapstone
+                    </a>
+                </p>
+
+                
+                
+
+                <p>
                     <a onclick='document.getElementById("content").innerHTML = `<h1>Seattle University File System</h1><p> <a href="https://github.com/rpanu/SUFS" target="_blank">https://github.com/rpanu/SUFS</a></p>
 <h2>What is this?</h2><p>The Seattle University File System is a distributed file system that is built with NodeJS and is hosted on AWS.</p>
 <h2>How does it work?</h2><p>The client pulls a file from S3 and breaks it down into blocks. Each block is assigned a blockID and has three copies stored across multiple DataNodes. The list of blockIDs that correspond to a single file, is stored in the NameNode. At any point the user can request a specific file and it can be pulled from the DataNodes, block by block, where it will be reassembled in the client. </p>
@@ -75,7 +109,7 @@
   <a id="logo" href="https://www.linkedin.com/in/rohanpanuganti/" target="_blank">
     <img class="icon" src="icons/linkedin.svg" alt="LinkedIn Link">
   </a>
-  <a id="logo" onclick="openResume()" target="_blank">
+  <a id="logo" href="https://nbviewer.jupyter.org/github/rohanpanuganti/Resume-New/blob/master/Resume.pdf" target="_blank">
     <img class="icon" src="icons/paper.svg" alt="Resume Link">
   </a>
 </footer>

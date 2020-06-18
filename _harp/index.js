@@ -1,7 +1,3 @@
-function openResume() {
-    window.open('RohanPanugantiResume.pdf');
-}
-
 var typewrite = function (el, rotate, period) {
     this.rotate = rotate;
     this.el = el;
