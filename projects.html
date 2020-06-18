@@ -55,7 +55,7 @@ We use three object types: </p>
 </blockquote>
 <p>We use AWS Cloudwatch to track utilization data on instances. Cumulus configures CW and the instances using SSM, or Simple Storage Service. This allows us to securely send commands to instances and start/stop workloads. So after the workload stops running, the metrics we tracked are stored in S3, or Simple Storage Service. The data stored as a CSV and is easily accessible. It is also imporant to note that workloads can be stored in S3 for fluid deployment. The objects in this system are stored in DynamoDB. This means state and pass/fail criteria can easily be viewed and tracked by users. All of these products can securely work together thanks to AWS IAM. We have completed automated permissions using the IAM SDK. 
 <img alt="Cumulus System Overview" src="icons/System Overview.png" width="100%"></p>
-<h2>Is it done where is it?</h2><p>AWS Cumulus is now in the hands of AWS Engineers. While this is a powerful tool, it is not practical for non-AWS developers simply because it is expensive to run large scale workloads. However, the future of Cumulus is bright as the cloud becomes an increasing dependency. The recommendation system will definitely need constant improvments. </p>
+<h2>Where is it now?</h2><p>AWS Cumulus is now in the hands of AWS Engineers. While this is a powerful tool, it is not practical for non-AWS developers simply because it is expensive to run large scale workloads. However, the future of Cumulus is bright as the cloud becomes an increasing dependency. The recommendation system will definitely need constant improvments. </p>
 `;
                         window.scrollTo(0, 0); window.location.hash = `#/3_AWSCapstone`' 
                         id='3_AWSCapstone'>
