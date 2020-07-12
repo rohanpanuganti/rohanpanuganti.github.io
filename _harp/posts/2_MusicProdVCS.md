@@ -38,3 +38,8 @@ Before making changes to your branch make sure you pull changes from github usin
 
 ## Other methods
 While this is a free way to use version control in audio engineering, do more research into git and other methods of music collaboration. Look into using a git GUI. Use professional grade tools like Splice or BlendIO.
+
+# My music!
+I made an ambient piece using this workflow
+
+<iframe width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/830327212&color=%23df281c&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true"></iframe><div style="font-size: 10px; color: #cccccc;line-break: anywhere;word-break: normal;overflow: hidden;white-space: nowrap;text-overflow: ellipsis; font-family: Interstate,Lucida Grande,Lucida Sans Unicode,Lucida Sans,Garuda,Verdana,Tahoma,sans-serif;font-weight: 100;"><a href="https://soundcloud.com/rohanxo" title="rohan" target="_blank" style="color: #cccccc; text-decoration: none;">rohan</a> · <a href="https://soundcloud.com/rohanxo/davinas-lullaby" title="davina&#x27;s lullaby" target="_blank" style="color: #cccccc; text-decoration: none;">davina&#x27;s lullaby</a></div> 
