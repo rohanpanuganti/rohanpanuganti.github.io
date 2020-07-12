@@ -23,6 +23,7 @@ The hardest part of this process is making a song. Just start a project and add 
 >
 Now go to github and create a new repository under your organization. Go through the process of naming it and making it public/private. Then you will be met with a page that asks how you want to set up the repository. Since we already made the music project let's take the line that says
 >  git remote add origin https://github.com/Organization-Name/SONGNAME.git
+
 and add it to the the same commandline where we initialized version control. This will be connecting the our project to github so we can make changes and manage different versions. The repository is initialized, we have to add all the files for our first push. Now we have to write a string of commands into the commandline. First let's add all the files with "git add ." (the . means all files but you can add them individually by typing a filename). Then let's commit those changes with "git commit -am 'This message should describe your changes'". Finally we can write "git push -u origin master". 
 >
 Now all the files are in github. You do not have to worry about corrupted files or losing saves because everything is stored in github. 
@@ -35,5 +36,5 @@ Using the command "git branch -b NAMEOFBRANCH" we can easily create a new branch
 ### Pulling
 Before making changes to your branch make sure you pull changes from github using the command "git pull". Since all DAW's make binary files, the commits you make will most likely have differences  that will be overritten. 
 
-### Other methods
-While this is a free way to use version control in audio engineering, do more research into git and other methods of music collaboration. Look into using a git GUI. Use professional grade tools like Splice or BlendIO. 
+## Other methods
+While this is a free way to use version control in audio engineering, do more research into git and other methods of music collaboration. Look into using a git GUI. Use professional grade tools like Splice or BlendIO.

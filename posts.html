@@ -47,8 +47,10 @@
 </blockquote>
 <p>Now go to github and create a new repository under your organization. Go through the process of naming it and making it public/private. Then you will be met with a page that asks how you want to set up the repository. Since we already made the music project let&#39;s take the line that says</p>
 <blockquote>
-<p> git remote add origin <a href="https://github.com/Organization-Name/SONGNAME.git">https://github.com/Organization-Name/SONGNAME.git</a>
-and add it to the the same commandline where we initialized version control. This will be connecting the our project to github so we can make changes and manage different versions. The repository is initialized, we have to add all the files for our first push. Now we have to write a string of commands into the commandline. First let&#39;s add all the files with &quot;git add .&quot; (the . means all files but you can add them individually by typing a filename). Then let&#39;s commit those changes with &quot;git commit -am &#39;This message should describe your changes&#39;&quot;. Finally we can write &quot;git push -u origin master&quot;. </p>
+<p> git remote add origin <a href="https://github.com/Organization-Name/SONGNAME.git">https://github.com/Organization-Name/SONGNAME.git</a></p>
+</blockquote>
+<p>and add it to the the same commandline where we initialized version control. This will be connecting the our project to github so we can make changes and manage different versions. The repository is initialized, we have to add all the files for our first push. Now we have to write a string of commands into the commandline. First let&#39;s add all the files with &quot;git add .&quot; (the . means all files but you can add them individually by typing a filename). Then let&#39;s commit those changes with &quot;git commit -am &#39;This message should describe your changes&#39;&quot;. Finally we can write &quot;git push -u origin master&quot;. </p>
+<blockquote>
 </blockquote>
 <p>Now all the files are in github. You do not have to worry about corrupted files or losing saves because everything is stored in github. </p>
 <h3>Branches</h3><p>In git, branches refer to an independant line of development. Let&#39;s say you are collaborating on a song. Your friend thinks the song should sound jazzy while you think it should sound more like soul. You each can branch off and develop the songs in a different branch. </p>
@@ -56,7 +58,7 @@ and add it to the the same commandline where we initialized version control. Thi
 </blockquote>
 <p>Using the command &quot;git branch -b NAMEOFBRANCH&quot; we can easily create a new branch based off master and switch to it (using the -b). </p>
 <h3>Pulling</h3><p>Before making changes to your branch make sure you pull changes from github using the command &quot;git pull&quot;. Since all DAW&#39;s make binary files, the commits you make will most likely have differences  that will be overritten. </p>
-<h3>Other methods</h3><p>While this is a free way to use version control in audio engineering, do more research into git and other methods of music collaboration. Look into using a git GUI. Use professional grade tools like Splice or BlendIO. </p>
+<h2>Other methods</h2><p>While this is a free way to use version control in audio engineering, do more research into git and other methods of music collaboration. Look into using a git GUI. Use professional grade tools like Splice or BlendIO. </p>
 `; 
                         window.scrollTo(0, 0); window.location.hash = `#/2_MusicProdVCS`' 
                         id='2_MusicProdVCS'>
