@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-// ignore: avoid_web_libraries_in_flutter
-import 'dart:html' as html;
-
+import 'package:temp/projects.dart';
+import 'package:temp/social.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 void main() {
@@ -12,7 +11,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(fontFamily: 'Monospace', backgroundColor: Colors.white),
+      theme: ThemeData(backgroundColor: Colors.white),
       debugShowCheckedModeBanner: false,
       title: "Rohan Panuganti",
       home: Home(),
@@ -26,37 +25,18 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  List<bool> hover = [false, false, false];
-
-  Widget boop(IconData icon, int i, String url) {
-    return Padding(
-        padding: EdgeInsets.only(
-          left: 20,
-          bottom: 20,
-        ),
-        child: InkWell(
-          hoverColor: Colors.black,
-          onTap: () async {
-            html.window.open(url, 'new tab');
-          },
-          child: Container(
-              height: 40,
-              width: 40,
-              child: Center(
-                  child: FaIcon(
-                icon,
-                size: 35,
-                color: hover[i] ? Colors.white : Colors.black,
-              ))),
-          onHover: (h) async {
-            setState(() {
-              hover[i] = h;
-            });
-          },
-        ));
-  }
-
-  Widget text() {
+  int nav = 0;
+  Widget current() {
+    switch (nav) {
+      case 0:
+        {
+          return Profile();
+        }
+      case 1:
+        {
+          return Projects();
+        }
+    }
     return null;
   }
 
@@ -74,19 +54,45 @@ class _HomeState extends State<Home> {
           height: 50,
           alignment: Alignment.topLeft,
         ),
+        actions: [
+          Padding(
+              padding: EdgeInsets.only(top: 20, bottom: 20, right: 20),
+              child: NavOption(
+                title: "Projects",
+                onTap: () {
+                  setState(() {
+                    nav = 1;
+                  });
+                },
+              )),
+          Padding(
+              padding: EdgeInsets.only(top: 20, bottom: 20, right: 20),
+              child: NavOption(
+                title: "Profile",
+                onTap: () {
+                  setState(() {
+                    nav = 0;
+                  });
+                },
+              )),
+        ],
       ),
-      body: null,
+      body: current(),
       bottomNavigationBar: BottomAppBar(
         color: Colors.white,
         elevation: 0.0,
         child: Row(
           children: [
-            boop(FontAwesomeIcons.github, 0,
-                "https://github.com/rohanpanuganti/"),
-            boop(FontAwesomeIcons.linkedin, 1,
-                "https://www.linkedin.com/in/rohanpanuganti/"),
-            boop(FontAwesomeIcons.filePdf, 2,
-                "https://nbviewer.jupyter.org/github/rohanpanuganti/Resume-New/blob/master/Resume.pdf"),
+            SocialIcon(
+                icon: FontAwesomeIcons.github,
+                url: "https://github.com/rohanpanuganti/"),
+            SocialIcon(
+                icon: FontAwesomeIcons.linkedin,
+                url: "https://www.linkedin.com/in/rohanpanuganti/"),
+            SocialIcon(
+                icon: FontAwesomeIcons.filePdf,
+                url:
+                    "https://nbviewer.jupyter.org/github/rohanpanuganti/Resume-New/blob/master/Resume.pdf"),
           ],
         ),
       ),
