@@ -8,54 +8,73 @@ class Projects extends StatefulWidget {
 }
 
 class _ProjectsState extends State<Projects> {
-  int post = 0;
-
-  List<String> posts = <String>[
-    "Hackathon",
-  ];
-
-  Widget contentBox(int i) {
-    return FutureBuilder(
-        future: rootBundle.loadString("posts/$i.md"),
-        builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-          if (snapshot.hasData) {
-            return MarkdownBody(
-              data: snapshot.data,
-            );
-          }
-          return Center(
-            child: CircularProgressIndicator(
-              backgroundColor: Color.fromARGB(255, 223, 40, 28),
-            ),
-          );
-        });
-  }
-
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
+
+    Widget contentBox(int i) {
+      return Scaffold(
+          appBar: AppBar(
+            backgroundColor: Colors.white,
+            elevation: 0.0,
+            iconTheme: IconThemeData(
+              color: Colors.black,
+            ),
+          ),
+          body: Container(
+              padding: height > width
+                  ? EdgeInsets.all(45)
+                  : EdgeInsets.only(left: 180, right: 180, top: 45, bottom: 45),
+              child: FutureBuilder(
+                  future: rootBundle.loadString("posts/$i.md"),
+                  builder:
+                      (BuildContext context, AsyncSnapshot<String> snapshot) {
+                    if (snapshot.hasData) {
+                      return MarkdownBody(
+                        selectable: true,
+                        data: snapshot.data,
+                      );
+                    }
+                    return Center(
+                      child: CircularProgressIndicator(
+                        backgroundColor: Color.fromARGB(255, 223, 40, 28),
+                      ),
+                    );
+                  })));
+    }
+
     return SafeArea(
         child: SingleChildScrollView(
             physics: ClampingScrollPhysics(),
             child: Container(
-                padding: EdgeInsets.only(left: 45, right: 45, bottom: 45),
+                padding: EdgeInsets.all(45),
                 child: Column(
                   children: [
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(child: null),
-                      ],
-                    ),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Expanded(
                           child: Container(
                               padding: EdgeInsets.only(
-                                left: 45,
-                                right: 45,
+                                left: 20,
+                                right: 20,
                               ),
-                              child: contentBox(1)),
+                              child: GestureDetector(
+                                child: Text(
+                                  "> AWS Capstone Project",
+                                  style: TextStyle(
+                                    fontSize: 25,
+                                  ),
+                                ),
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => contentBox(1)),
+                                  );
+                                },
+                              )),
                         )
                       ],
                     )

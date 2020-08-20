@@ -79,6 +79,7 @@ class _HomeState extends State<Home> {
       ),
       body: current(),
       bottomNavigationBar: BottomAppBar(
+        notchMargin: 4.0,
         color: Colors.white,
         elevation: 0.0,
         child: Row(
