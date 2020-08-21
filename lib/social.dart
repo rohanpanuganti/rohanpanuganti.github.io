@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 // ignore: avoid_web_libraries_in_flutter
 import 'dart:html' as html;
@@ -114,5 +115,40 @@ class _NavOptionState extends State<NavOption> {
                 fontWeight: FontWeight.w300),
           )),
         ));
+  }
+}
+
+class ProjectSelect extends StatefulWidget {
+  final String title;
+  final VoidCallback onTap;
+  ProjectSelect({Key key, @required this.title, @required this.onTap});
+  @override
+  _ProjectSelectState createState() => _ProjectSelectState();
+}
+
+class _ProjectSelectState extends State<ProjectSelect> {
+  bool hover = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onHover: (h) {
+        setState(() {
+          this.hover = h;
+        });
+      },
+      onTap: widget.onTap,
+      hoverColor: Colors.black,
+      splashColor: Color.fromARGB(255, 223, 40, 28),
+      child: Center(
+          child: AutoSizeText(
+        widget.title,
+        maxLines: 2,
+        style: TextStyle(
+          color: this.hover ? Colors.white : Colors.black,
+          fontSize: 25,
+        ),
+      )),
+    );
   }
 }
