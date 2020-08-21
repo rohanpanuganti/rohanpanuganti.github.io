@@ -16,6 +16,7 @@ class _ProjectsState extends State<Projects> {
 
     Widget contentBox(int i) {
       return Scaffold(
+          backgroundColor: Colors.white,
           appBar: AppBar(
             backgroundColor: Colors.white,
             elevation: 0.0,
@@ -27,9 +28,8 @@ class _ProjectsState extends State<Projects> {
               physics: ClampingScrollPhysics(),
               child: Container(
                   padding: height > width
-                      ? EdgeInsets.all(45)
-                      : EdgeInsets.only(
-                          left: 180, right: 180, top: 45, bottom: 45),
+                      ? EdgeInsets.only(left: 45, right: 45, bottom: 45)
+                      : EdgeInsets.only(left: 180, right: 180, bottom: 45),
                   child: FutureBuilder(
                       future: rootBundle.loadString("posts/$i.md"),
                       builder: (BuildContext context,

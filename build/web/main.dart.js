@@ -30388,7 +30388,6 @@ if(l.d<=0)j.a.toString
 s=j.a
 q=j.go
 s=s.cy
-if(s==null)s=f.y
 return new M.uS(!1,q,new E.n4(j.fy,M.No(C.b0,i,K.wm(j.db,new M.PH(h,j,p,!1,l,k,e),i),C.a8,s,0,i,C.k,i,i,C.ec),i),i)}}
 M.PI.prototype={
 $1:function(a){var s=this.b
@@ -46857,8 +46856,8 @@ s=T.kP(H.a([M.cP(r,new X.kL("> SeattleU File System",new N.Vq(a,o),r),r,r,r,r,r,
 n=n?new V.am(45,0,0,45):new V.am(0,0,0,10)
 return E.Qt(M.cP(r,T.IZ(H.a([m,s,T.kP(H.a([M.cP(r,new X.kL("> HackSU 2020",new N.Vr(a,o),r),r,r,r,r,r,r,n,r,r)],l),C.bk,C.aR,C.aV,r)],l),C.bk,C.aR,C.aV),r,r,r,r,r,r,new V.am(45,45,45,45),r,r),r,new L.k2(r),C.q)}}
 N.Vs.prototype={
-$1:function(a){var s=null,r=E.a0q(s,C.j,s,0,new T.dQ(C.k,s,s),s,s),q=this.a>this.b?new V.am(45,45,45,45):new V.am(180,45,180,45)
-return M.a28(r,s,E.Qt(M.cP(s,new B.m9($.w9().Te("posts/"+a+".md"),new N.Vt(),s,t.Cn),s,s,s,s,s,s,q,s,s),s,new L.k2(s),C.q),s)},
+$1:function(a){var s=null,r=E.a0q(s,C.j,s,0,new T.dQ(C.k,s,s),s,s),q=this.a>this.b?new V.am(45,0,45,45):new V.am(180,0,180,45)
+return M.a28(r,C.j,E.Qt(M.cP(s,new B.m9($.w9().Te("posts/"+a+".md"),new N.Vt(),s,t.Cn),s,s,s,s,s,s,q,s,s),s,new L.k2(s),C.q),s)},
 $S:317}
 N.Vt.prototype={
 $2:function(a,b){var s=null,r=b.b
