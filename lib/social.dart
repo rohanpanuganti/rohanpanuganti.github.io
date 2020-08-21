@@ -69,7 +69,7 @@ class Profile extends StatelessWidget {
             ),
             Row(mainAxisAlignment: MainAxisAlignment.start, children: [
               Container(
-                padding: EdgeInsets.only(left: 45),
+                padding: EdgeInsets.only(left: 45, bottom: 45),
                 child: Text(
                   "Feel free to contact me!",
                   style: TextStyle(fontSize: 20),

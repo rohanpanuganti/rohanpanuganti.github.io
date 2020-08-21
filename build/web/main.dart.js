@@ -46911,7 +46911,7 @@ $0:function(){this.a.d=this.b},
 $S:0}
 X.Av.prototype={
 G:function(a){var s=null,r=t.t
-return Q.a_0(!0,E.Qt(T.IZ(H.a([T.kP(H.a([new K.x0(new L.lF("images/profile.png",s,s),100,s)],r),C.bk,C.pU,C.aV,s),M.cP(s,L.l4("Hi! I am Rohan Panuganti and this is my website. Now that I have graduated, this website will act as a portfolio. Whether it be a simple application, a full-stack project, or even a musical composition, it will all by compiled here. I have provided my social media and resume at the bottom of the page.",s,s,s,s,s,s,s,A.i_(s,s,s,s,s,s,s,s,s,s,s,20,s,s,s,s,!0,s,s,s,s,s,s),s,s,s),s,s,s,s,s,s,new V.am(45,45,45,45),s,s),T.kP(H.a([M.cP(s,L.l4("Feel free to contact me!",s,s,s,s,s,s,s,A.i_(s,s,s,s,s,s,s,s,s,s,s,20,s,s,s,s,!0,s,s,s,s,s,s),s,s,s),s,s,s,s,s,s,new V.am(45,0,0,0),s,s)],r),C.bk,C.aR,C.aV,s)],r),C.bk,C.aR,C.aV),s,s,C.q),!0)}}
+return Q.a_0(!0,E.Qt(T.IZ(H.a([T.kP(H.a([new K.x0(new L.lF("images/profile.png",s,s),100,s)],r),C.bk,C.pU,C.aV,s),M.cP(s,L.l4("Hi! I am Rohan Panuganti and this is my website. Now that I have graduated, this website will act as a portfolio. Whether it be a simple application, a full-stack project, or even a musical composition, it will all by compiled here. I have provided my social media and resume at the bottom of the page.",s,s,s,s,s,s,s,A.i_(s,s,s,s,s,s,s,s,s,s,s,20,s,s,s,s,!0,s,s,s,s,s,s),s,s,s),s,s,s,s,s,s,new V.am(45,45,45,45),s,s),T.kP(H.a([M.cP(s,L.l4("Feel free to contact me!",s,s,s,s,s,s,s,A.i_(s,s,s,s,s,s,s,s,s,s,s,20,s,s,s,s,!0,s,s,s,s,s,s),s,s,s),s,s,s,s,s,s,new V.am(45,0,0,45),s,s)],r),C.bk,C.aR,C.aV,s)],r),C.bk,C.aR,C.aV),s,s,C.q),!0)}}
 X.mN.prototype={
 ao:function(){return new X.F7(C.l)}}
 X.F7.prototype={
