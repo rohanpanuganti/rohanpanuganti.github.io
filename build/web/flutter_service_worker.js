@@ -11,7 +11,7 @@ const RESOURCES = {
 "icons/Icon-512.png": "96e752610906ba2a93c65f8abe1645f1",
 "manifest.json": "9ea0ad60aa00424a0872129e2bb87f22",
 "assets/posts/1.md": "9a15af8fc44a013d99b166333c62a4ad",
-"assets/posts/3.md": "0f4a4269a2ccbf525ad1ad8ef72d63ac",
+"assets/posts/3.md": "4c397ce06a54c58583689a38b002c307",
 "assets/posts/2.md": "a32cb5b5bbe5392d7312814080b3a79d",
 "assets/images/rp.png": "1ab6eac68efb0651c3000e51391c9e16",
 "assets/images/overview.png": "98cb3c570c1e4c4759904a99b041d554",
