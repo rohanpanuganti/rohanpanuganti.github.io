@@ -1,5 +1,8 @@
+import 'dart:async';
+import 'dart:math';
+
 import 'package:flutter/material.dart';
-import 'package:temp/projects.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:temp/social.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -25,20 +28,14 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  int nav = 0;
-  Widget current() {
-    switch (nav) {
-      case 0:
-        {
-          return Profile();
-        }
-      case 1:
-        {
-          return Projects();
-        }
-    }
-    return null;
-  }
+  int _count = 0;
+
+  List<String> _statements = [
+    'my name is Rohan',
+    'i am a software engineer',
+    'welcome to my website!',
+    'i will compile all my projects and experiences here',
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +43,7 @@ class _HomeState extends State<Home> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         toolbarHeight: 70,
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.transparent,
         centerTitle: false,
         elevation: 0.0,
         title: Image.asset(
@@ -54,33 +51,47 @@ class _HomeState extends State<Home> {
           height: 50,
           alignment: Alignment.topLeft,
         ),
-        actions: [
-          Padding(
-              padding: EdgeInsets.only(top: 20, bottom: 20, right: 20),
-              child: NavOption(
-                title: "Projects",
-                onTap: () {
-                  setState(() {
-                    nav = 1;
-                  });
-                },
-              )),
-          Padding(
-              padding: EdgeInsets.only(top: 20, bottom: 20, right: 20),
-              child: NavOption(
-                title: "Profile",
-                onTap: () {
-                  setState(() {
-                    nav = 0;
-                  });
-                },
-              )),
-        ],
       ),
-      body: current(),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CircleAvatar(
+                    backgroundImage: AssetImage('images/profile.png'),
+                    radius: 100,
+                  )
+                ],
+              ),
+              Container(height: 50),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          _count = (_count + 1) % _statements.length;
+                        });
+                      },
+                      child: Container(
+                          width: MediaQuery.of(context).size.width * 0.85,
+                          child: Center(
+                              child: Text(_statements[_count],
+                                  style:
+                                      GoogleFonts.robotoMono(fontSize: 30))))),
+                ],
+              ),
+              Container(height: 500)
+            ],
+          ),
+        ),
+      ),
       bottomNavigationBar: BottomAppBar(
-        notchMargin: 4.0,
-        color: Colors.white,
+        color: Colors.transparent,
         elevation: 0.0,
         child: Row(
           children: [
@@ -92,8 +103,7 @@ class _HomeState extends State<Home> {
                 url: "https://www.linkedin.com/in/rohanpanuganti/"),
             SocialIcon(
                 icon: FontAwesomeIcons.filePdf,
-                url:
-                    "https://nbviewer.jupyter.org/github/rohanpanuganti/Resume-New/blob/master/Resume.pdf"),
+                url: "https://rohanpanuganti.com/Resume-New/"),
           ],
         ),
       ),
