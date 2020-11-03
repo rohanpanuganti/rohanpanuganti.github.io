@@ -1,11 +1,11 @@
 {
-    "name": "temp",
-    "short_name": "temp",
+    "name": "Rohan Panuganti",
+    "short_name": "RohanP",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "description": "Rohan Panuganti's Personal Website",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
