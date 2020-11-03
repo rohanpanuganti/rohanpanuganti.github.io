@@ -51,7 +51,7 @@ class _HomeState extends State<Home> {
     final IFrameElement _iframeElement = IFrameElement();
     _iframeElement.src = iframe;
     _iframeElement.style.border = 'none';
-    _iframeElement.addEventListener('touchstart', (event) => null);
+    _iframeElement.addEventListener('touchstart', (event) => null, true);
 
     ui.platformViewRegistry.registerViewFactory(
       'iframeElement',
