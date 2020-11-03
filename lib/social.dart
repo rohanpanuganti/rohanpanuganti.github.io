@@ -1,8 +1,8 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 // ignore: avoid_web_libraries_in_flutter
 import 'dart:html' as html;
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class SocialIcon extends StatefulWidget {
   final String url;
@@ -18,14 +18,13 @@ class _SocialIconState extends State<SocialIcon> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return Container(
         padding: EdgeInsets.only(
           left: 20,
           bottom: 20,
         ),
         child: InkWell(
           hoverColor: Colors.black,
-          splashColor: Color.fromARGB(255, 223, 40, 28),
           onTap: () async {
             html.window.open(widget.url, 'new tab');
           },
@@ -47,42 +46,6 @@ class _SocialIconState extends State<SocialIcon> {
   }
 }
 
-class Profile extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return SafeArea(
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-              CircleAvatar(
-                maxRadius: 100,
-                backgroundImage: AssetImage('images/profile.png'),
-              )
-            ]),
-            Container(
-              padding: EdgeInsets.all(45),
-              child: Text(
-                "Hi! I am Rohan Panuganti and this is my website. Now that I have graduated, this website will act as a portfolio. Whether it be a simple application, a full-stack project, or even a musical composition, it will all by compiled here. I have provided my social media and resume at the bottom of the page.",
-                style: TextStyle(fontSize: 20),
-              ),
-            ),
-            Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-              Container(
-                padding: EdgeInsets.only(left: 45, bottom: 45),
-                child: Text(
-                  "Feel free to contact me!",
-                  style: TextStyle(fontSize: 20),
-                ),
-              ),
-            ])
-          ],
-        ),
-      ),
-    );
-  }
-}
-
 class NavOption extends StatefulWidget {
   final String title;
   final VoidCallback onTap;
@@ -95,40 +58,45 @@ class _NavOptionState extends State<NavOption> {
   bool hover = false;
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
     return InkWell(
-        onHover: (h) {
-          setState(() {
-            this.hover = h;
-          });
-        },
-        onTap: widget.onTap,
-        hoverColor: Colors.black,
-        splashColor: Color.fromARGB(255, 223, 40, 28),
-        child: Container(
-          margin: EdgeInsets.all(0),
+      onHover: (h) {
+        setState(() {
+          this.hover = h;
+        });
+      },
+      onTap: widget.onTap,
+      hoverColor: Colors.black,
+      highlightColor: Colors.transparent,
+      splashColor: Colors.transparent,
+      child: Container(
+          width: height > width ? width : null,
+          height: height > width ? 100 : null,
           child: Center(
               child: Text(
             widget.title,
-            style: TextStyle(
-                color: this.hover ? Colors.white : Colors.black,
-                fontSize: 25,
-                fontWeight: FontWeight.w300),
-          )),
-        ));
+            maxLines: 3,
+            textAlign: TextAlign.center,
+            style: GoogleFonts.robotoMono(
+              color: this.hover ? Colors.white : Colors.black,
+              fontSize: 25,
+            ),
+          ))),
+    );
   }
 }
 
-class ProjectSelect extends StatefulWidget {
-  final String title;
+class Link extends StatefulWidget {
   final VoidCallback onTap;
-  ProjectSelect({Key key, @required this.title, @required this.onTap});
+  final String text;
+  Link({this.onTap, this.text});
   @override
-  _ProjectSelectState createState() => _ProjectSelectState();
+  _LinkState createState() => _LinkState();
 }
 
-class _ProjectSelectState extends State<ProjectSelect> {
+class _LinkState extends State<Link> {
   bool hover = false;
-
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -139,16 +107,15 @@ class _ProjectSelectState extends State<ProjectSelect> {
       },
       onTap: widget.onTap,
       hoverColor: Colors.black,
-      splashColor: Color.fromARGB(255, 223, 40, 28),
-      child: Center(
-          child: AutoSizeText(
-        widget.title,
-        maxLines: 2,
-        style: TextStyle(
-          color: this.hover ? Colors.white : Colors.black,
-          fontSize: 25,
-        ),
-      )),
+      child: Container(
+          margin: EdgeInsets.zero,
+          child: Text(
+            widget.text,
+            style: GoogleFonts.robotoMono(
+              color: this.hover ? Colors.white : Colors.black,
+              fontSize: 20,
+            ),
+          )),
     );
   }
 }
