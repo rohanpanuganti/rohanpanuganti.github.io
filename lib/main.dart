@@ -171,8 +171,8 @@ class _HomeState extends State<Home> {
                 '^^ Click Me! ^^',
                 style: GoogleFonts.robotoMono(fontSize: 25),
               ),
-              */
               Container(height: 50),
+               */
               Container(
                   padding: EdgeInsets.only(left: 20),
                   alignment: Alignment.centerLeft,
