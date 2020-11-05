@@ -3,6 +3,7 @@ import 'dart:html';
 
 // ignore: undefined_prefixed_name
 import 'dart:ui' as ui;
+import 'dart:js' as js;
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -34,7 +35,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   int _count = 0;
   int n = 0;
-  String iframe = 'https://editor.p5js.org/rohanpanuganti/embed/1uvMsrJlu';
+
   ScrollController _ctrl;
   List<String> _statements = [
     'my name is Rohan',
@@ -43,25 +44,10 @@ class _HomeState extends State<Home> {
     'this site contains all my projects and experiences',
     'i also make music!'
   ];
-  Widget _iframeWidget;
 
   @override
   void initState() {
     _ctrl = new ScrollController();
-    final IFrameElement _iframeElement = IFrameElement();
-    _iframeElement.src = iframe;
-    _iframeElement.style.border = 'none';
-    _iframeElement.addEventListener('touchstart', (event) => null, true);
-
-    ui.platformViewRegistry.registerViewFactory(
-      'iframeElement',
-      (int viewId) => _iframeElement,
-    );
-
-    _iframeWidget = HtmlElementView(
-      key: UniqueKey(),
-      viewType: 'iframeElement',
-    );
     super.initState();
   }
 
@@ -148,12 +134,14 @@ class _HomeState extends State<Home> {
                   ),
                 ],
               ),
+              /*
               Container(height: 50),
               GestureDetector(
                   behavior: HitTestBehavior.opaque,
                   onTap: () async {
                     setState(() {
                       _count = 4;
+                      js.context.callMethod('playAudio', ['/test.mp4']);
                     });
                   },
                   child: Row(
@@ -163,13 +151,14 @@ class _HomeState extends State<Home> {
                       Container(
                           width: width > height ? 420 : width * 0.95,
                           height: 420,
-                          child: _iframeWidget),
+                          child: Text('Play Audio')),
                     ],
                   )),
               Text(
                 '^^ Click Me! ^^',
                 style: GoogleFonts.robotoMono(fontSize: 25),
               ),
+              */
               Container(height: 50),
               Container(
                   padding: EdgeInsets.only(left: 20),
