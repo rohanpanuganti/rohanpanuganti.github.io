@@ -225,6 +225,9 @@ class _HomeState extends State<Home> {
             SocialIcon(
                 icon: FontAwesomeIcons.filePdf,
                 url: "https://rohanpanuganti.com/Resume-New/"),
+            SocialIcon(
+                icon: FontAwesomeIcons.soundcloud,
+                url: "https://soundcloud.com/rohanxo"),
           ],
         ),
       ),

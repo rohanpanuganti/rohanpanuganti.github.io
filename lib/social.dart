@@ -34,7 +34,7 @@ class _SocialIconState extends State<SocialIcon> {
               child: Center(
                   child: FaIcon(
                 widget.icon,
-                size: 35,
+                size: 30,
                 color: this.hover ? Colors.white : Colors.black,
               ))),
           onHover: (h) async {
