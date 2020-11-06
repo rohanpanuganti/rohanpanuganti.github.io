@@ -56,10 +56,22 @@
       "languageVersion": "2.3"
     },
     {
+      "name": "csslib",
+      "rootUri": "file:///Users/rohan/.pub-cache/hosted/pub.dartlang.org/csslib-0.16.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.2"
+    },
+    {
       "name": "cupertino_icons",
       "rootUri": "file:///Users/rohan/.pub-cache/hosted/pub.dartlang.org/cupertino_icons-0.1.3",
       "packageUri": "lib/",
       "languageVersion": "2.0"
+    },
+    {
+      "name": "easy_web_view",
+      "rootUri": "file:///Users/rohan/.pub-cache/git/easy_web_view-416b182b4364364954f904bdbd64a8bde5b2915b/",
+      "packageUri": "lib/",
+      "languageVersion": "2.1"
     },
     {
       "name": "fake_async",
@@ -87,15 +99,21 @@
     },
     {
       "name": "flutter_markdown",
-      "rootUri": "file:///Users/rohan/.pub-cache/hosted/pub.dartlang.org/flutter_markdown-0.4.4",
+      "rootUri": "file:///Users/rohan/.pub-cache/hosted/pub.dartlang.org/flutter_markdown-0.3.5",
       "packageUri": "lib/",
-      "languageVersion": "2.7"
+      "languageVersion": "2.5"
     },
     {
       "name": "flutter_test",
       "rootUri": "file:///Users/rohan/Documents/flutter/packages/flutter_test",
       "packageUri": "lib/",
       "languageVersion": "2.10"
+    },
+    {
+      "name": "flutter_web_plugins",
+      "rootUri": "file:///Users/rohan/Documents/flutter/packages/flutter_web_plugins",
+      "packageUri": "lib/",
+      "languageVersion": "2.0"
     },
     {
       "name": "font_awesome_flutter",
@@ -108,6 +126,18 @@
       "rootUri": "file:///Users/rohan/.pub-cache/hosted/pub.dartlang.org/google_fonts-1.1.1",
       "packageUri": "lib/",
       "languageVersion": "2.3"
+    },
+    {
+      "name": "html",
+      "rootUri": "file:///Users/rohan/.pub-cache/hosted/pub.dartlang.org/html-0.14.0+4",
+      "packageUri": "lib/",
+      "languageVersion": "2.3"
+    },
+    {
+      "name": "html2md",
+      "rootUri": "file:///Users/rohan/.pub-cache/hosted/pub.dartlang.org/html2md-0.5.1",
+      "packageUri": "lib/",
+      "languageVersion": "1.20"
     },
     {
       "name": "http",
@@ -126,6 +156,12 @@
       "rootUri": "file:///Users/rohan/.pub-cache/hosted/pub.dartlang.org/intl-0.16.1",
       "packageUri": "lib/",
       "languageVersion": "2.5"
+    },
+    {
+      "name": "js",
+      "rootUri": "file:///Users/rohan/.pub-cache/hosted/pub.dartlang.org/js-0.6.3-nullsafety.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.10"
     },
     {
       "name": "markdown",
@@ -254,10 +290,52 @@
       "languageVersion": "2.10"
     },
     {
+      "name": "url_launcher",
+      "rootUri": "file:///Users/rohan/.pub-cache/hosted/pub.dartlang.org/url_launcher-5.7.10",
+      "packageUri": "lib/",
+      "languageVersion": "2.1"
+    },
+    {
+      "name": "url_launcher_linux",
+      "rootUri": "file:///Users/rohan/.pub-cache/hosted/pub.dartlang.org/url_launcher_linux-0.0.1+4",
+      "packageUri": "lib/",
+      "languageVersion": "2.1"
+    },
+    {
+      "name": "url_launcher_macos",
+      "rootUri": "file:///Users/rohan/.pub-cache/hosted/pub.dartlang.org/url_launcher_macos-0.0.1+9",
+      "packageUri": "lib/",
+      "languageVersion": "2.1"
+    },
+    {
+      "name": "url_launcher_platform_interface",
+      "rootUri": "file:///Users/rohan/.pub-cache/hosted/pub.dartlang.org/url_launcher_platform_interface-1.0.9",
+      "packageUri": "lib/",
+      "languageVersion": "2.1"
+    },
+    {
+      "name": "url_launcher_web",
+      "rootUri": "file:///Users/rohan/.pub-cache/hosted/pub.dartlang.org/url_launcher_web-0.1.5+1",
+      "packageUri": "lib/",
+      "languageVersion": "2.2"
+    },
+    {
+      "name": "url_launcher_windows",
+      "rootUri": "file:///Users/rohan/.pub-cache/hosted/pub.dartlang.org/url_launcher_windows-0.0.1+3",
+      "packageUri": "lib/",
+      "languageVersion": "2.1"
+    },
+    {
       "name": "vector_math",
       "rootUri": "file:///Users/rohan/.pub-cache/hosted/pub.dartlang.org/vector_math-2.1.0-nullsafety.3",
       "packageUri": "lib/",
       "languageVersion": "2.10"
+    },
+    {
+      "name": "webview_flutter",
+      "rootUri": "file:///Users/rohan/.pub-cache/hosted/pub.dartlang.org/webview_flutter-0.3.24",
+      "packageUri": "lib/",
+      "languageVersion": "2.7"
     },
     {
       "name": "win32",
@@ -278,7 +356,7 @@
       "languageVersion": "2.7"
     }
   ],
-  "generated": "2020-11-05T08:05:55.183999Z",
+  "generated": "2020-11-06T06:29:34.826969Z",
   "generator": "pub",
   "generatorVersion": "2.11.0-213.1.beta"
 }

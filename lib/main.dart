@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:temp/posts.dart';
 import 'package:temp/social.dart';
+import 'package:easy_web_view/easy_web_view.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 void main() {
@@ -31,6 +32,10 @@ class Home extends StatefulWidget {
   @override
   _HomeState createState() => _HomeState();
 }
+
+const htmlS = '''
+<iframe src="https://editor.p5js.org/rohanpanuganti/embed/1uvMsrJlu" scrolling="no" seamless="seamless" ontouchstart="myFunction(event)" height="410" width="410" style="border:none; overflow:hidden;"></iframe>
+''';
 
 class _HomeState extends State<Home> {
   int _count = 0;
@@ -100,7 +105,6 @@ class _HomeState extends State<Home> {
         title: Image.asset(
           "images/rp.png",
           height: 50,
-          alignment: Alignment.topLeft,
         ),
       ),
       body: SafeArea(
@@ -134,31 +138,23 @@ class _HomeState extends State<Home> {
                   ),
                 ],
               ),
-              /*
               Container(height: 50),
-              GestureDetector(
-                  behavior: HitTestBehavior.opaque,
-                  onTap: () async {
-                    setState(() {
-                      _count = 4;
-                      js.context.callMethod('playAudio', ['/test.mp4']);
-                    });
-                  },
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Container(
-                          width: width > height ? 420 : width * 0.95,
-                          height: 420,
-                          child: Text('Play Audio')),
-                    ],
+              Container(
+                  alignment: Alignment.center,
+                  width: width > height ? 420 : width * 0.95,
+                  height: 430,
+                  child: EasyWebView(
+                    src: htmlS,
+                    onLoaded: () {
+                      print('nice');
+                    },
+                    isHtml: true,
+                    isMarkdown: false,
                   )),
               Text(
-                '^^ Click Me! ^^',
+                "^^ Click Me (Unless you're on an iPhone) ^^",
                 style: GoogleFonts.robotoMono(fontSize: 25),
               ),
-              */
               Container(height: 50),
               Container(
                   padding: EdgeInsets.only(left: 20),
@@ -212,6 +208,7 @@ class _HomeState extends State<Home> {
         ),
       ),
       bottomNavigationBar: BottomAppBar(
+        clipBehavior: Clip.hardEdge,
         color: Colors.transparent,
         elevation: 0.0,
         child: Row(
