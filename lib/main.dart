@@ -151,10 +151,12 @@ class _HomeState extends State<Home> {
                     isHtml: true,
                     isMarkdown: false,
                   )),
-              Text(
-                "^^ Click Me (Unless you're on an iPhone) ^^",
-                style: GoogleFonts.robotoMono(fontSize: 25),
-              ),
+              FittedBox(
+                  fit: BoxFit.contain,
+                  child: Text(
+                    "^^ Click Me (Unless you're on an iPhone) ^^",
+                    style: GoogleFonts.robotoMono(fontSize: 25),
+                  )),
               Container(height: 50),
               Container(
                   padding: EdgeInsets.only(left: 20),
