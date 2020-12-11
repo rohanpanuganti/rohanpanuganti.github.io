@@ -44,9 +44,11 @@ class _ProjectsState extends State<Projects> {
                       begin: Offset(0, -0.1),
                       end: Offset.zero,
                     ).animate(animation),
-                    child: ProjectCard(
-                      document: doc,
-                    )),
+                    child: Padding(
+                        padding: EdgeInsets.all(10),
+                        child: ProjectCard(
+                          document: doc,
+                        ))),
               );
             },
           );
