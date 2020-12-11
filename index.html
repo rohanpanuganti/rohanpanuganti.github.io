@@ -22,13 +22,14 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="apple-mobile-web-app-title" content="rohanp">
+  <meta name="msapplication-config" content="browserconfig.xml" />
   <link rel="apple-touch-icon" href="icons/Icon-192.png">
 
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="favicon.png" />
-
-  <title>rohanp</title>
   <link rel="manifest" href="manifest.json">
+  
+  <title>rohanp</title>
 </head>
 
 <body>
@@ -62,7 +63,7 @@
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('flutter-first-frame', function () {
-        navigator.serviceWorker.register('flutter_service_worker.js?v=2332766507');
+        navigator.serviceWorker.register('flutter_service_worker.js?v=1105692283');
       });
     }
   </script>
