@@ -256,7 +256,7 @@ class _MainBodyState extends State<MainBody>
                 text: "whoami",
                 onTap: () => drawerKey.currentState.openDrawer(),
               ),
-              Container(width: 10),
+              Text('  '),
             ],
             backgroundColor: Colors.transparent,
             elevation: 0,
