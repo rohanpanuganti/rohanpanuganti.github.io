@@ -13,6 +13,7 @@ class _ProjectsState extends State<Projects> {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
+
     return Container(
       color: Theme.of(context).backgroundColor,
       width: width < height ? width : width * .3 - 1,

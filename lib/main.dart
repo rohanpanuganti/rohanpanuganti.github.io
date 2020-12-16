@@ -16,12 +16,13 @@ import 'package:rohanp/project.dart';
 import 'package:rohanp/yearbook.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-String data = window.location.search;
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   FirebaseFirestore.instance.enablePersistence();
   Firebase.initializeApp().then((value) => runApp(MyApp()));
 }
+
+String id;
 
 class MyApp extends StatelessWidget {
   static FirebaseAnalytics analytics = FirebaseAnalytics();
@@ -30,6 +31,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    id = window.location.search;
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Home(),

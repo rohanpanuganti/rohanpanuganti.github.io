@@ -55,6 +55,7 @@ class _ProjectCardState extends State<ProjectCard> {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
+
     setState(() {
       open = () {
         showModalBottomSheet<dynamic>(
@@ -121,12 +122,13 @@ class _ProjectCardState extends State<ProjectCard> {
       return Center(child: CircularProgressIndicator());
     }
 
-    if (data == "/?" + widget.document["route"] && src != null) {
+    if (id == "?" + widget.document["route"] && src != null) {
       SchedulerBinding.instance.addPostFrameCallback((_) => open());
       setState(() {
-        data = null;
+        id = null;
       });
     }
+
     return Material(
         child: InkWell(
       onTap: open,
