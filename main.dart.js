@@ -55846,7 +55846,7 @@ p=M.cV(f,new Z.Aw(0,M.aaI(m,o,M.cV(f,T.OF(H.c([T.Ew(H.c([n,new R.m1(f),K.adf(l,f
 h=K.aL(b).rx
 e=U.ank("images/rp.png",50,f)
 l=L.m6("",f,f,f)
-e=E.a9H(H.c([new F.rY("whoami",new F.a4I(g),f),L.m6("  ",f,f,f)],k),C.aB,!1,0,l,0,e,66)
+e=E.a9H(H.c([new F.rY("whoami",new F.a4I(g),f),L.m6("    ",f,f,f)],k),C.aB,!1,0,l,0,e,66)
 l=M.cV(f,f,C.m,f,f,f,f,50,f,f,f,f,f)
 n=B.rT(C.l,22)
 o=g.e
@@ -55939,7 +55939,7 @@ $R:2,
 $S:376}
 K.a5M.prototype={
 $3:function(a,b,c){var s=t.gI,r=t.wr
-return K.aa1(K.a09(new T.fw(new V.b2(10,10,10,10),new V.up(this.a.b.gFr()[b],null),null),new R.aM(c,new R.as(new P.x(0,-0.1),C.i,r),r.i("aM<al.T>")),null,!0),new R.aM(c,new R.as(0,1,s),s.i("aM<al.T>")))},
+return K.aa1(K.a09(new T.fw(new V.b2(20,15,20,20),new V.up(this.a.b.gFr()[b],null),null),new R.aM(c,new R.as(new P.x(0,-0.1),C.i,r),r.i("aM<al.T>")),null,!0),new R.aM(c,new R.as(0,1,s),s.i("aM<al.T>")))},
 $C:"$3",
 $R:3,
 $S:377}
