@@ -78,7 +78,7 @@ class _ProjectCardState extends State<ProjectCard> {
                         icon: Icon(LineAwesomeIcons.creative_commons_share),
                         onPressed: () {
                           Clipboard.setData(ClipboardData(
-                              text: "https://rohanpanuganti.com/" +
+                              text: "https://rohanpanuganti.com/?" +
                                   widget.document["route"]));
                         },
                       ),
@@ -121,7 +121,7 @@ class _ProjectCardState extends State<ProjectCard> {
       return Center(child: CircularProgressIndicator());
     }
 
-    if (data == "/" + widget.document["route"] && src != null) {
+    if (data == "/?" + widget.document["route"] && src != null) {
       SchedulerBinding.instance.addPostFrameCallback((_) => open());
       setState(() {
         data = null;

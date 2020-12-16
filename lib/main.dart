@@ -16,7 +16,7 @@ import 'package:rohanp/project.dart';
 import 'package:rohanp/yearbook.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-String data = window.location.pathname;
+String data = window.location.search;
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   FirebaseFirestore.instance.enablePersistence();
