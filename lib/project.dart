@@ -15,7 +15,7 @@ class _ProjectsState extends State<Projects> {
     double height = MediaQuery.of(context).size.height;
     return Container(
       color: Theme.of(context).backgroundColor,
-      width: width < height ? width : width * .3,
+      width: width < height ? width : width * .3 - 1,
       height: width < height ? height * .3 : height,
       child: StreamBuilder(
         stream: FirebaseFirestore.instance

@@ -1,16 +1,25 @@
+import 'dart:html';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:rainbow_color/rainbow_color.dart';
 import 'package:rohanp/project.dart';
-import 'dart:html' as html;
 
+import 'package:rohanp/yearbook.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+String data = window.location.pathname;
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
+  FirebaseFirestore.instance.enablePersistence();
   Firebase.initializeApp().then((value) => runApp(MyApp()));
 }
 
@@ -24,10 +33,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Home(),
-      color: Theme.of(context).backgroundColor,
+      color: Color.fromRGBO(246, 238, 227, 1),
       theme: ThemeData(
           accentColor: Color.fromRGBO(225, 33, 32, 1),
-          backgroundColor: Color.fromRGBO(248, 248, 255, 1),
+          backgroundColor: Color.fromRGBO(249, 247, 241, 1),
           textSelectionTheme: TextSelectionThemeData(
             selectionColor: Color.fromRGBO(225, 33, 32, 1),
             cursorColor: Colors.white,
@@ -116,10 +125,18 @@ class _MainBodyState extends State<MainBody>
     double height = MediaQuery.of(context).size.height;
 
     return Container(
-        color: Colors.transparent,
-        width: width < height ? width : width * .7 - 2,
-        height: width < height ? height * .7 - 2 : height,
-        margin: EdgeInsets.all(1),
+        width: width < height ? width : width * .7 - 1,
+        height: width < height ? height * .7 : height,
+        decoration: BoxDecoration(
+          border: width < height
+              ? Border(
+                  bottom: BorderSide(
+                      color: Theme.of(context).accentColor, width: 2))
+              : Border(
+                  right: BorderSide(
+                      color: Theme.of(context).accentColor, width: 3),
+                ),
+        ),
         child: Scaffold(
           key: drawerKey,
           drawer: Container(
@@ -170,12 +187,19 @@ class _MainBodyState extends State<MainBody>
                                 )),
                             Spacer(),
                             CircleAvatar(
-                              radius: width < height
-                                  ? ((width / 2) * .4)
-                                  : ((width / 2) * .6 * .3),
-                              backgroundImage: AssetImage('images/profile.png'),
-                              backgroundColor: Theme.of(context).accentColor,
-                            )
+                                backgroundColor: Theme.of(context).accentColor,
+                                radius: width < height
+                                    ? ((width / 2) * .41)
+                                    : ((width / 2) * .6 * .31),
+                                child: CircleAvatar(
+                                  radius: width < height
+                                      ? ((width / 2) * .4)
+                                      : ((width / 2) * .6 * .3),
+                                  backgroundImage:
+                                      AssetImage('images/profile.png'),
+                                  backgroundColor:
+                                      Theme.of(context).accentColor,
+                                ))
                           ],
                         ),
                         Spacer(),
@@ -217,11 +241,11 @@ class _MainBodyState extends State<MainBody>
           extendBodyBehindAppBar: true,
           backgroundColor: Theme.of(context).backgroundColor,
           appBar: AppBar(
-            toolbarHeight: kToolbarHeight - 5,
+            toolbarHeight: kToolbarHeight + 10,
             centerTitle: false,
             title: Image.asset(
               "images/rp.png",
-              height: 50,
+              height: 60,
             ),
             leading: Container(),
             leadingWidth: 0.0,
@@ -242,20 +266,39 @@ class _MainBodyState extends State<MainBody>
               children: [
                 Container(height: 50),
                 Spacer(),
+                /*
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    HoverText(
+                      text: ">sign my yearbook<",
+                      onTap: () {
+                        showModalBottomSheet<dynamic>(
+                            isScrollControlled: true,
+                            enableDrag: true,
+                            context: context,
+                            builder: (BuildContext context) {
+                              return Yearbook();
+                            });
+                      },
+                    )
+                  ],
+                ),*/
+                Spacer(),
                 RichText(
                   text: TextSpan(
                     text: 'currently working ',
                     style:
-                        GoogleFonts.ptMono(fontSize: 18, color: Colors.black),
+                        GoogleFonts.ptMono(fontSize: 22, color: Colors.black),
                     children: <TextSpan>[
                       TextSpan(
                           text: '@ ',
                           style: GoogleFonts.ptMono(
-                              fontSize: 20, color: _rb[animation.value])),
+                              fontSize: 24, color: _rb[animation.value])),
                       TextSpan(
                           text: 'aws',
                           style: GoogleFonts.ptMono(
-                              fontSize: 20,
+                              fontSize: 24,
                               color: Color.fromRGBO(255, 153, 0, 1))),
                     ],
                   ),
@@ -294,9 +337,9 @@ class _HoverTextState extends State<HoverText> {
           child: Text(widget.text,
               textAlign: TextAlign.center,
               style: !hover
-                  ? GoogleFonts.robotoMono(fontSize: 20, color: Colors.black)
+                  ? GoogleFonts.robotoMono(fontSize: 24, color: Colors.black)
                   : GoogleFonts.robotoMono(
-                      fontSize: 22, color: Theme.of(context).accentColor)),
+                      fontSize: 25, color: Theme.of(context).accentColor)),
         ));
   }
 }
@@ -323,11 +366,11 @@ class _SocialIconState extends State<SocialIcon> {
             this.hover = h;
           });
         },
-        onTap: () => html.window.open(widget.url, 'new tab'),
+        onTap: () async => await launch(widget.url),
         child: Icon(
           widget.icon,
           color: hover ? widget.color : Colors.black,
-          size: 50,
+          size: 70,
         ));
   }
 }

@@ -1,11 +1,15 @@
 import 'package:easy_web_view/easy_web_view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
+import 'package:rohanp/main.dart';
 
 class ProjectCard extends StatefulWidget {
   final document;
+
   ProjectCard({@required this.document});
   @override
   _ProjectCardState createState() => _ProjectCardState();
@@ -13,7 +17,8 @@ class ProjectCard extends StatefulWidget {
 
 class _ProjectCardState extends State<ProjectCard> {
   bool hover = false;
-  String src = """<link rel="preconnect" href="https://fonts.gstatic.com">
+  String src;
+  String header = """<link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
   <style>
     body {
@@ -23,14 +28,24 @@ class _ProjectCardState extends State<ProjectCard> {
       color: white;
       background: #e12120;
     }
-    </style> 
+    img {
+      pointer-events: none;
+      user-drag: none; 
+      user-select: none;
+      -moz-user-select: none;
+      -webkit-user-drag: none;
+      -webkit-user-select: none;
+      -ms-user-select: none;
+    }
+    </style>
+    <script>document.addEventListener('contextmenu', event => event.preventDefault());</script>
   """;
-
+  var open;
   @override
   void initState() {
     http.read(widget.document['content']).then((value) {
       setState(() {
-        src += value;
+        src = header + value;
       });
     });
     super.initState();
@@ -40,24 +55,33 @@ class _ProjectCardState extends State<ProjectCard> {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
-    if (widget.document == null) {
-      return Center(child: CircularProgressIndicator());
-    }
-    return Material(
-        child: InkWell(
-      onTap: () {
+    setState(() {
+      open = () {
         showModalBottomSheet<dynamic>(
             isScrollControlled: true,
             enableDrag: true,
             context: context,
             builder: (BuildContext context) {
               return Container(
+                color: Theme.of(context).backgroundColor,
                 height: height * .94,
                 padding: EdgeInsets.fromLTRB(0, 15, 0, 0),
                 child: Scaffold(
                     extendBodyBehindAppBar: true,
+                    backgroundColor: Theme.of(context).backgroundColor,
                     appBar: AppBar(
-                      leading: Text("  "),
+                      leadingWidth: 100,
+                      leading: IconButton(
+                        iconSize: 40,
+                        color: Colors.lightBlue,
+                        splashRadius: 20,
+                        icon: Icon(LineAwesomeIcons.creative_commons_share),
+                        onPressed: () {
+                          Clipboard.setData(ClipboardData(
+                              text: "https://rohanpanuganti.com/" +
+                                  widget.document["route"]));
+                        },
+                      ),
                       title: Text("  "),
                       backgroundColor: Colors.transparent,
                       elevation: 0,
@@ -91,7 +115,21 @@ class _ProjectCardState extends State<ProjectCard> {
                         ))),
               );
             });
-      },
+      };
+    });
+    if (widget.document == null) {
+      return Center(child: CircularProgressIndicator());
+    }
+
+    if (data == "/" + widget.document["route"] && src != null) {
+      SchedulerBinding.instance.addPostFrameCallback((_) => open());
+      setState(() {
+        data = null;
+      });
+    }
+    return Material(
+        child: InkWell(
+      onTap: open,
       onHover: (h) {
         setState(() {
           this.hover = h;
