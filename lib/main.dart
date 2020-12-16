@@ -247,16 +247,16 @@ class _MainBodyState extends State<MainBody>
             centerTitle: false,
             title: Image.asset(
               "images/rp.png",
-              height: 60,
+              height: 50,
             ),
-            leading: Container(),
+            leading: Text(''),
             leadingWidth: 0.0,
             actions: [
               HoverText(
                 text: "whoami",
                 onTap: () => drawerKey.currentState.openDrawer(),
               ),
-              Text('       '),
+              Container(width: 10),
             ],
             backgroundColor: Colors.transparent,
             elevation: 0,
