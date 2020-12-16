@@ -55716,7 +55716,7 @@ K:function(a,b){var s,r,q,p,o,n,m,l=this,k=null,j=t.w,i=b.U(j).f.a.a,h=b.U(j).f.
 l.aq(new V.a5G(l,b,h,i))
 j=l.a.c
 if(j==null)return T.kU(U.adf(),k,k)
-if($.akc()===C.c.P("/",J.au(j,"route"))&&l.e!=null){$.bP.z$.push(new V.a5H(l))
+if($.akc()===C.c.P("/?",J.au(j,"route"))&&l.e!=null){$.bP.z$.push(new V.a5H(l))
 l.aq(new V.a5I())}j=l.r
 s=i<h
 r=s?h*0.3*0.7:i*0.3*0.7
@@ -55761,7 +55761,7 @@ $1:function(a){var s=null,r=K.aL(a).rx,q=this.b,p=K.aL(a).rx,o=this.a,n=E.a9I(s,
 return M.cI(s,M.aaJ(n,p,M.cI(s,T.kU(new L.rp(o.e,!1,!0,!1,!0,new V.a5C(),s),s,s),C.m,s,s,s,s,s,s,l,s,s,s),s,!0,m,C.us,s),C.m,r,s,s,s,q*0.94,s,new V.b2(0,15,0,0),s,s,s)},
 $S:370}
 V.a5A.prototype={
-$0:function(){T.OA(new T.Ov(C.c.P("https://rohanpanuganti.com/",J.au(this.a.a.c,"route"))))},
+$0:function(){T.OA(new T.Ov(C.c.P("https://rohanpanuganti.com/?",J.au(this.a.a.c,"route"))))},
 $C:"$0",
 $R:0,
 $S:1}
@@ -60974,7 +60974,7 @@ r($,"awr","ajb",function(){return new E.WL(P.ab("/",!0,!1),P.ab("[^/]$",!0,!1),P
 r($,"awt","MB",function(){return new L.a25(P.ab("[/\\\\]",!0,!1),P.ab("[^/\\\\]$",!0,!1),P.ab("^(\\\\\\\\[^\\\\]+\\\\[^\\\\/]+|[a-zA-Z]:[/\\\\])",!0,!1),P.ab("^[/\\\\](?![/\\\\])",!0,!1))})
 r($,"aws","yE",function(){return new F.a1L(P.ab("/",!0,!1),P.ab("(^[a-zA-Z][-+.a-zA-Z\\d]*://|[^/])$",!0,!1),P.ab("[a-zA-Z][-+.a-zA-Z\\d]*://[^/]*",!0,!1),P.ab("^/",!0,!1))})
 r($,"awq","ach",function(){return O.apx()})
-q($,"ats","akc",function(){return C.b3.gRk(W.a9e()).pathname})
+q($,"ats","akc",function(){return C.b3.gRk(W.a9e()).search})
 q($,"awI","aci",function(){return new P.v()})
 q($,"apT","ajp",function(){return new F.V6($.aci())})
 q($,"awL","ajs",function(){return new G.a1Z()})})();(function nativeSupport(){!function(){var s=function(a){var m={}
