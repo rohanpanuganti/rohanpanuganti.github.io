@@ -46,7 +46,7 @@ class _ProjectsState extends State<Projects> {
                       end: Offset.zero,
                     ).animate(animation),
                     child: Padding(
-                        padding: EdgeInsets.all(10),
+                        padding: EdgeInsets.fromLTRB(20, 15, 20, 20),
                         child: ProjectCard(
                           document: doc,
                         ))),
