@@ -1,10 +1,12 @@
 import 'package:easy_web_view/easy_web_view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:rohanp/main.dart';
 
 class ProjectCard extends StatefulWidget {
@@ -58,31 +60,22 @@ class _ProjectCardState extends State<ProjectCard> {
 
     setState(() {
       open = () {
-        showModalBottomSheet<dynamic>(
-            isScrollControlled: true,
+        showMaterialModalBottomSheet(
             enableDrag: true,
             context: context,
+            animationCurve: Curves.easeInOutQuint,
+            duration: Duration(seconds: 2),
             builder: (BuildContext context) {
               return Container(
-                color: Theme.of(context).backgroundColor,
                 height: height * .94,
+                color: Theme.of(context).backgroundColor,
                 padding: EdgeInsets.fromLTRB(0, 15, 0, 0),
                 child: Scaffold(
                     extendBodyBehindAppBar: true,
                     backgroundColor: Theme.of(context).backgroundColor,
                     appBar: AppBar(
                       leadingWidth: 100,
-                      leading: IconButton(
-                        iconSize: 40,
-                        color: Colors.lightBlue,
-                        splashRadius: 20,
-                        icon: Icon(LineAwesomeIcons.creative_commons_share),
-                        onPressed: () {
-                          Clipboard.setData(ClipboardData(
-                              text: "https://rohanpanuganti.com/?" +
-                                  widget.document["route"]));
-                        },
-                      ),
+                      leading: Text("  "),
                       title: Text("  "),
                       backgroundColor: Colors.transparent,
                       elevation: 0,
@@ -104,15 +97,20 @@ class _ProjectCardState extends State<ProjectCard> {
                         padding: width < height
                             ? EdgeInsets.fromLTRB(30, 30, 30, 0)
                             : EdgeInsets.fromLTRB(120, 30, 120, 0),
-                        child: Center(
-                          child: EasyWebView(
-                            onLoaded: () {},
-                            webAllowFullScreen: false,
-                            convertToWidgets: false,
-                            widgetsTextSelectable: true,
-                            isMarkdown: true,
-                            src: src,
-                          ),
+                        child: Stack(
+                          alignment: AlignmentDirectional.bottomEnd,
+                          children: [
+                            Center(
+                              child: EasyWebView(
+                                onLoaded: () {},
+                                webAllowFullScreen: false,
+                                convertToWidgets: false,
+                                widgetsTextSelectable: true,
+                                isMarkdown: true,
+                                src: src,
+                              ),
+                            ),
+                          ],
                         ))),
               );
             });

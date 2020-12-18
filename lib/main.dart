@@ -143,6 +143,16 @@ class _MainBodyState extends State<MainBody>
           key: drawerKey,
           drawer: Container(
               width: width < height ? width : width * .6,
+              decoration: BoxDecoration(
+                border: width < height
+                    ? Border(
+                        right: BorderSide(
+                            color: Theme.of(context).accentColor, width: 2))
+                    : Border(
+                        top: BorderSide(
+                            color: Theme.of(context).accentColor, width: 3),
+                      ),
+              ),
               child: Drawer(
                 elevation: 0,
                 child: Scaffold(
