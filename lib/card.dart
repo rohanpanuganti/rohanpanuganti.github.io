@@ -68,7 +68,16 @@ class _ProjectCardState extends State<ProjectCard> {
             builder: (BuildContext context) {
               return Container(
                 height: height * .94,
-                color: Theme.of(context).backgroundColor,
+                decoration: BoxDecoration(
+                  border: width < height
+                      ? Border(
+                          top: BorderSide(
+                              color: Theme.of(context).accentColor, width: 2))
+                      : Border(
+                          right: BorderSide(
+                              color: Theme.of(context).accentColor, width: 2),
+                        ),
+                ),
                 padding: EdgeInsets.fromLTRB(0, 15, 0, 0),
                 child: Scaffold(
                     extendBodyBehindAppBar: true,
@@ -81,17 +90,44 @@ class _ProjectCardState extends State<ProjectCard> {
                       elevation: 0,
                       toolbarHeight: kToolbarHeight,
                     ),
-                    floatingActionButtonLocation:
-                        FloatingActionButtonLocation.centerTop,
-                    floatingActionButton: FloatingActionButton(
-                      mini: true,
-                      elevation: 0,
-                      onPressed: () => Navigator.pop(context),
-                      child: GestureDetector(
-                          child: Icon(
-                        LineAwesomeIcons.times,
-                        size: 28,
-                      )),
+                    floatingActionButton: Stack(
+                      children: <Widget>[
+                        Align(
+                          alignment: Alignment.topCenter,
+                          child: Padding(
+                            padding: EdgeInsets.only(top: 15, left: 29),
+                            child: FloatingActionButton(
+                                mini: true,
+                                elevation: 0,
+                                onPressed: () => Navigator.pop(context),
+                                child: GestureDetector(
+                                    child: Icon(
+                                  LineAwesomeIcons.times,
+                                  size: 28,
+                                ))),
+                          ),
+                        ),
+                        Align(
+                            alignment: Alignment.bottomLeft,
+                            child: Padding(
+                              padding: EdgeInsets.only(left: 25),
+                              child: FloatingActionButton(
+                                mini: true,
+                                elevation: 0,
+                                backgroundColor: Colors.lightBlueAccent,
+                                child: GestureDetector(
+                                  child: Icon(
+                                    LineAwesomeIcons.alternate_external_link,
+                                    size: 20,
+                                  ),
+                                ),
+                                onPressed: () => Clipboard.setData(
+                                    ClipboardData(
+                                        text: "http://rohanpanuganti.com/?" +
+                                            widget.document["route"])),
+                              ),
+                            )),
+                      ],
                     ),
                     body: Container(
                         padding: width < height
