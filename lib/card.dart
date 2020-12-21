@@ -68,16 +68,6 @@ class _ProjectCardState extends State<ProjectCard> {
             builder: (BuildContext context) {
               return Container(
                 height: height * .94,
-                decoration: BoxDecoration(
-                  border: width < height
-                      ? Border(
-                          top: BorderSide(
-                              color: Theme.of(context).accentColor, width: 2))
-                      : Border(
-                          right: BorderSide(
-                              color: Theme.of(context).accentColor, width: 2),
-                        ),
-                ),
                 padding: EdgeInsets.fromLTRB(0, 15, 0, 0),
                 child: Scaffold(
                     extendBodyBehindAppBar: true,
@@ -174,7 +164,17 @@ class _ProjectCardState extends State<ProjectCard> {
       child: Container(
           height: width < height ? height * .3 * .7 : width * .3 * .7,
           width: width < height ? height * .3 * .9 : width * .3 * .9,
-          color: Theme.of(context).backgroundColor,
+          decoration: BoxDecoration(
+            color: Theme.of(context).backgroundColor,
+            border: width < height
+                ? Border(
+                    right: BorderSide(
+                        color: Theme.of(context).accentColor, width: 2))
+                : Border(
+                    bottom: BorderSide(
+                        color: Theme.of(context).accentColor, width: 3),
+                  ),
+          ),
           child: Stack(
             alignment: AlignmentDirectional.bottomEnd,
             children: [
