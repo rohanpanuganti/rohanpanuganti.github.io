@@ -162,21 +162,11 @@ class _ProjectCardState extends State<ProjectCard> {
         });
       },
       child: Container(
-          height: width < height ? height * .3 * .7 : width * .3 * .7,
-          width: width < height ? height * .3 * .9 : width * .3 * .9,
           decoration: BoxDecoration(
             color: Theme.of(context).backgroundColor,
-            border: width < height
-                ? Border(
-                    right: BorderSide(
-                        color: Theme.of(context).accentColor, width: 2))
-                : Border(
-                    bottom: BorderSide(
-                        color: Theme.of(context).accentColor, width: 3),
-                  ),
           ),
           child: Stack(
-            alignment: AlignmentDirectional.bottomEnd,
+            alignment: AlignmentDirectional.center,
             children: [
               Opacity(
                 opacity: !hover ? 0.3 : 1,
@@ -191,7 +181,8 @@ class _ProjectCardState extends State<ProjectCard> {
                 ),
               ),
               Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text(widget.document["title"],
                       style: !hover

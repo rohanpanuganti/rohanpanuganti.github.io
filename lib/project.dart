@@ -1,6 +1,8 @@
 import 'package:auto_animated/auto_animated.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:rohanp/card.dart';
 
 class Projects extends StatefulWidget {
@@ -27,30 +29,23 @@ class _ProjectsState extends State<Projects> {
           if (!snapshot.hasData) {
             return Container(child: Center(child: CircularProgressIndicator()));
           }
-          return LiveList(
-            physics: const AlwaysScrollableScrollPhysics(),
-            scrollDirection: width < height ? Axis.horizontal : Axis.vertical,
+          return CarouselSlider.builder(
             itemCount: snapshot.data.documents.length,
-            showItemInterval: Duration(milliseconds: 250),
-            showItemDuration: Duration(milliseconds: 350),
-            itemBuilder: (context, index, Animation<double> animation) {
+            options: CarouselOptions(
+                viewportFraction: width < height ? .6 : .3,
+                scrollDirection:
+                    width < height ? Axis.horizontal : Axis.vertical,
+                height: width < height ? width * .37 : width * .3 * .6,
+                enableInfiniteScroll: true,
+                autoPlay: true,
+                autoPlayAnimationDuration: Duration(milliseconds: 900)),
+            itemBuilder: (context, index) {
               var doc = snapshot.data.documents[index];
-              return FadeTransition(
-                opacity: Tween<double>(
-                  begin: 0,
-                  end: 1,
-                ).animate(animation),
-                child: SlideTransition(
-                    position: Tween<Offset>(
-                      begin: Offset(0, -0.1),
-                      end: Offset.zero,
-                    ).animate(animation),
-                    child: Padding(
-                        padding: EdgeInsets.fromLTRB(20, 15, 20, 20),
-                        child: ProjectCard(
-                          document: doc,
-                        ))),
-              );
+              return Padding(
+                  padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                  child: ProjectCard(
+                    document: doc,
+                  ));
             },
           );
         },
