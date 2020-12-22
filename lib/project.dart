@@ -38,7 +38,7 @@ class _ProjectsState extends State<Projects> {
                 height: width < height ? width * .37 : width * .3 * .6,
                 enableInfiniteScroll: true,
                 autoPlay: true,
-                autoPlayAnimationDuration: Duration(milliseconds: 900)),
+                autoPlayAnimationDuration: Duration(seconds: 1)),
             itemBuilder: (context, index) {
               var doc = snapshot.data.documents[index];
               return Padding(
