@@ -4,26 +4,18 @@ const TEMP = 'flutter-temp-cache';
 const CACHE_NAME = 'flutter-app-cache';
 const RESOURCES = {
   "version.json": "583fcbf6f3e0fab7d858a00507a99f61",
-"index.html": "c4942eaecf3e3a8b8ef805a069e4d107",
-"/": "c4942eaecf3e3a8b8ef805a069e4d107",
-"CNAME": "d925250980b89266b0a6f10c9afab95b",
-"main.dart.js": "8e7ac589bfa358632ad877c5a92b8033",
-"favicon.png": "72c8a52d2282be254d66e88f73e8e5b8",
-"icons/safari-pinned-tab.svg": "4aa8d1d67abdb4803a4a07f05b597fa9",
-"icons/Icon-192.png": "9ff71fdb998a80ee6fc61f09f85e5b7f",
-"icons/mstile-150x150.png": "27f51197013868fa8e7e873cb2a28b52",
-"icons/Icon-512.png": "dcd892d07520b3de4f1da2cd5f9d31de",
-"manifest.json": "6764aa4f9ef0492e5d41fb653000beb2",
-"assets/images/rp.png": "1ab6eac68efb0651c3000e51391c9e16",
-"assets/images/profile.png": "2a2c4d1ddc89ac7e9b30eced41d16280",
-"assets/AssetManifest.json": "a46ef31056a8f3a9f90a7dfe0c6d421b",
-"assets/NOTICES": "c920388675ca5a46f10487366c394c8f",
-"assets/FontManifest.json": "6ecbe48ac2ca5b349003c29f98675e1a",
-"assets/packages/cupertino_icons/assets/CupertinoIcons.ttf": "b14fcf3ee94e3ace300b192e9e7c8c5d",
-"assets/packages/line_awesome_flutter/lib/fonts/LineAwesome.ttf": "bcc78af7963d22efd760444145073cd3",
-"assets/packages/flutter_markdown/assets/logo.png": "67642a0b80f3d50277c44cde8f450e50",
-"assets/fonts/MaterialIcons-Regular.otf": "1288c9e28052e028aba623321f7826ac",
-"browserconfig.xml": "12678d80062b0ef10688ef26b546c69b"
+"index.html": "01507f7034fb98d43adc081132f592f2",
+"/": "01507f7034fb98d43adc081132f592f2",
+"main.dart.js": "30a7096192e2955d6549a5b039fda875",
+"favicon.png": "5dcef449791fa27946b3d35ad8803796",
+"icons/Icon-192.png": "ac9a721a12bbc803b44f645561ecb1e1",
+"icons/Icon-512.png": "96e752610906ba2a93c65f8abe1645f1",
+"manifest.json": "74eabefd0e60fc277099a0a634eb5625",
+"assets/AssetManifest.json": "2efbb41d7877d10aac9d091f58ccd7b9",
+"assets/NOTICES": "971a6f8f7e6f99b877c4e33a979d48e8",
+"assets/FontManifest.json": "dc3d03800ccca4601324923c0b1d6d57",
+"assets/packages/cupertino_icons/assets/CupertinoIcons.ttf": "6d342eb68f170c97609e9da345464e5e",
+"assets/fonts/MaterialIcons-Regular.otf": "1288c9e28052e028aba623321f7826ac"
 };
 
 // The application shell files that are downloaded before a service worker can
@@ -167,7 +159,7 @@ async function downloadOffline() {
     }
     currentContent[key] = true;
   }
-  for (var resourceKey in Object.keys(RESOURCES)) {
+  for (var resourceKey of Object.keys(RESOURCES)) {
     if (!currentContent[resourceKey]) {
       resources.push(resourceKey);
     }
