@@ -54,31 +54,35 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
+          backgroundColor: Color.fromRGBO(26, 26, 29, 1),
           body: Stack(
-        children: [
-          Container(
-              alignment: AlignmentDirectional.center,
-              padding: EdgeInsets.all(20),
-              child: FittedBox(
-                fit: BoxFit.scaleDown,
-                child: RichText(
-                    textAlign: TextAlign.center,
-                    text: TextSpan(
-                        text: 'Rohan Panuganti\n',
-                        style: GoogleFonts.nunito(fontSize: 40),
-                        children: [
-                          TextSpan(text: 'currently working @ '),
-                          TextSpan(
-                              text: 'spyn',
-                              recognizer: new TapGestureRecognizer()
-                                ..onTap = () => js.context
-                                    .callMethod('open', ['https://spyn.ai/#/']),
-                              style:
-                                  GoogleFonts.nunito(color: _colorAnim.value))
-                        ])),
-              )),
-        ],
-      )),
+            children: [
+              Container(
+                  alignment: AlignmentDirectional.center,
+                  padding: EdgeInsets.all(20),
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: RichText(
+                        textAlign: TextAlign.center,
+                        text: TextSpan(
+                            text: 'Rohan Panuganti\n',
+                            style: GoogleFonts.nunito(
+                                fontSize: 40,
+                                color: Colors.white,
+                                fontWeight: FontWeight.w900),
+                            children: [
+                              TextSpan(text: 'currently working @ '),
+                              TextSpan(
+                                  text: 'spyn',
+                                  recognizer: new TapGestureRecognizer()
+                                    ..onTap = () => js.context.callMethod(
+                                        'open', ['https://spyn.ai/#/']),
+                                  style: GoogleFonts.nunito(
+                                      color: _colorAnim.value))
+                            ])),
+                  )),
+            ],
+          )),
     );
   }
 }
