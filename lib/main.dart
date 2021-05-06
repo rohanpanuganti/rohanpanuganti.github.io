@@ -2,9 +2,11 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:rainbow_color/rainbow_color.dart';
+import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 import 'dart:js' as js;
 
 void main() {
+  setUrlStrategy(PathUrlStrategy());
   runApp(MyApp());
 }
 
@@ -82,8 +84,10 @@ class _MainState extends State<Main> with SingleTickerProviderStateMixin {
                               recognizer: new TapGestureRecognizer()
                                 ..onTap = () => js.context
                                     .callMethod('open', ['https://spyn.ai/#/']),
-                              style:
-                                  GoogleFonts.nunito(color: _colorAnim.value))
+                              style: GoogleFonts.nunito(
+                                  color: _colorAnim.value,
+                                  fontSize: 40,
+                                  fontWeight: FontWeight.w900))
                         ])),
               )),
         ],
