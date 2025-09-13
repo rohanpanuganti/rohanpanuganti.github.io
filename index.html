@@ -3,7 +3,9 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <title>rohan panuganti</title>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"></script>
@@ -30,6 +32,30 @@
             color: white;
             font-size: 20px;
             text-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+            text-align: center;
+            max-width: 90%;
+        }
+
+        @media (max-width: 768px) {
+            #instructions {
+                font-size: 16px;
+                padding: 0 10px;
+            }
+
+            #completion-message {
+                font-size: 28px;
+                padding: 0 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            #instructions {
+                font-size: 14px;
+            }
+
+            #completion-message {
+                font-size: 24px;
+            }
         }
 
         #completion-message {
@@ -70,35 +96,134 @@
         let pointer;
         let linkPinched = false;
 
+        async function setupCamera() {
+            try {
+                // Mobile-optimized constraints
+                const constraints = {
+                    video: {
+                        facingMode: 'user', // Front camera
+                        width: { ideal: 640, max: 1280 },
+                        height: { ideal: 480, max: 720 }
+                    }
+                };
+
+                // Try to get user media
+                const stream = await navigator.mediaDevices.getUserMedia(constraints);
+                videoElement.srcObject = stream;
+
+                return new Promise((resolve, reject) => {
+                    videoElement.onloadedmetadata = () => {
+                        // Set video size for better performance on mobile
+                        videoElement.width = videoElement.videoWidth;
+                        videoElement.height = videoElement.videoHeight;
+
+                        videoElement.play()
+                            .then(resolve)
+                            .catch(reject);
+                    };
+
+                    videoElement.onerror = reject;
+
+                    // Timeout after 10 seconds
+                    setTimeout(() => reject(new Error('Camera setup timeout')), 10000);
+                });
+            } catch (error) {
+                console.error('Error accessing camera:', error);
+                throw error;
+            }
+        }
+
         function setup() {
-            // Initialize video for hand tracking
-            videoElement = document.createElement('video');
-            videoElement.style.display = 'none';
-            document.body.appendChild(videoElement);
+            // Set up touch fallback immediately
+            setupTouchFallback();
 
-            const hands = new Hands({
-                locateFile: (file) => {
-                    return `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`;
+            // Start immediately without button
+            startGame();
+        }
+
+        async function startGame() {
+            try {
+                document.getElementById('instructions').innerHTML = 'loading camera...';
+
+                await initializeCamera();
+                document.getElementById('instructions').innerHTML = 'pinch the bubbles to pop them';
+                initializeThreeJS();
+
+                // Create bubbles
+                for (let i = 0; i < 20; i++) {
+                    bubbles.push(new Bubble(
+                        Math.random() * 4 - 2,
+                        Math.random() * 4 - 2,
+                        Math.random() * 4 - 2,
+                        Math.random() * 0.5 + 0.2
+                    ));
                 }
-            });
-            hands.setOptions({
-                maxNumHands: 1,
-                modelComplexity: 1,
-                minDetectionConfidence: 0.7,
-                minTrackingConfidence: 0.7
-            });
 
-            hands.onResults(onResults);
+                animate();
+            } catch (error) {
+                console.error('Failed to initialize camera:', error);
+                // Continue without camera - use touch/mouse instead
+                document.getElementById('instructions').innerHTML = 'touch/click the bubbles to pop them';
+                initializeThreeJS();
 
-            const cameraFeed = new Camera(videoElement, {
-                onFrame: async () => {
-                    await hands.send({ image: videoElement });
-                },
-                width: 640,
-                height: 480
-            });
-            cameraFeed.start();
+                // Create bubbles
+                for (let i = 0; i < 20; i++) {
+                    bubbles.push(new Bubble(
+                        Math.random() * 4 - 2,
+                        Math.random() * 4 - 2,
+                        Math.random() * 4 - 2,
+                        Math.random() * 0.5 + 0.2
+                    ));
+                }
 
+                animate();
+            }
+        }
+
+        async function initializeCamera() {
+            try {
+                // Initialize video for hand tracking
+                videoElement = document.createElement('video');
+                videoElement.style.display = 'none';
+                videoElement.setAttribute('playsinline', ''); // Important for iOS
+                videoElement.setAttribute('autoplay', '');
+                videoElement.setAttribute('muted', '');
+                document.body.appendChild(videoElement);
+
+                const hands = new Hands({
+                    locateFile: (file) => {
+                        return `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`;
+                    }
+                });
+                hands.setOptions({
+                    maxNumHands: 1,
+                    modelComplexity: 1,
+                    minDetectionConfidence: 0.5,
+                    minTrackingConfidence: 0.5
+                });
+
+                hands.onResults(onResults);
+
+                await setupCamera();
+
+                const processFrame = async () => {
+                    if (videoElement.readyState >= 2) {
+                        try {
+                            await hands.send({ image: videoElement });
+                        } catch (e) {
+                            // Silently handle frame processing errors
+                        }
+                    }
+                    requestAnimationFrame(processFrame);
+                };
+                processFrame();
+            } catch (error) {
+                console.error('Camera initialization failed:', error);
+                throw error;
+            }
+        }
+
+        function initializeThreeJS() {
             // Initialize Three.js
             scene = new THREE.Scene();
             camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -118,18 +243,6 @@
             const pointerMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 });
             pointer = new THREE.Mesh(pointerGeometry, pointerMaterial);
             scene.add(pointer);
-
-            // Create bubbles
-            for (let i = 0; i < 20; i++) {
-                bubbles.push(new Bubble(
-                    Math.random() * 4 - 2,
-                    Math.random() * 4 - 2,
-                    Math.random() * 4 - 2,
-                    Math.random() * 0.5 + 0.2
-                ));
-            }
-
-            animate();
         }
 
         function onResults(results) {
@@ -145,6 +258,60 @@
                 const dy = (fingerTip.y - thumbTip.y) * window.innerHeight;
                 isPinching = Math.sqrt(dx * dx + dy * dy) < 50;
             }
+        }
+
+        // Touch fallback for devices where camera doesn't work
+        let isTouching = false;
+        let touchPosition = { x: 0, y: 0 };
+
+        function setupTouchFallback() {
+            document.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                isTouching = true;
+                const touch = e.touches[0];
+                touchPosition.x = touch.clientX;
+                touchPosition.y = touch.clientY;
+                fingerPosition.x = touch.clientX;
+                fingerPosition.y = touch.clientY;
+                isPinching = true;
+            });
+
+            document.addEventListener('touchmove', (e) => {
+                e.preventDefault();
+                if (isTouching) {
+                    const touch = e.touches[0];
+                    touchPosition.x = touch.clientX;
+                    touchPosition.y = touch.clientY;
+                    fingerPosition.x = touch.clientX;
+                    fingerPosition.y = touch.clientY;
+                }
+            });
+
+            document.addEventListener('touchend', (e) => {
+                e.preventDefault();
+                isTouching = false;
+                isPinching = false;
+            });
+
+            // Also add mouse support for desktop
+            document.addEventListener('mousedown', (e) => {
+                isTouching = true;
+                fingerPosition.x = e.clientX;
+                fingerPosition.y = e.clientY;
+                isPinching = true;
+            });
+
+            document.addEventListener('mousemove', (e) => {
+                if (isTouching) {
+                    fingerPosition.x = e.clientX;
+                    fingerPosition.y = e.clientY;
+                }
+            });
+
+            document.addEventListener('mouseup', () => {
+                isTouching = false;
+                isPinching = false;
+            });
         }
 
         function animate() {
