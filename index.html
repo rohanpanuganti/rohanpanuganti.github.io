@@ -9,6 +9,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#000000">
     <title>rohan panuganti</title>
+    <!-- Keeping libraries available; blob tracking below uses Canvas 2D -->
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js"></script>
@@ -43,389 +44,221 @@
             padding-right: env(safe-area-inset-right);
         }
 
-        #instructions {
-            position: absolute;
-            top: 10px;
+        /* Fullscreen camera video */
+        #cameraVideo {
+            position: fixed;
+            inset: 0;
+            width: 100vw;
+            height: 100vh;
+            object-fit: cover;
+            /* like background-size: cover */
+            z-index: 1;
+            background: black;
+            /* in case camera not ready */
+        }
+
+        /* Overlay for boxes/labels/lines */
+        #overlay {
+            position: fixed;
+            inset: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        /* Small debug mask preview (hidden by default) */
+        #maskPreview {
+            position: fixed;
+            right: 12px;
+            bottom: 12px;
+            width: 160px;
+            height: 120px;
+            background: #000;
+            opacity: 0.7;
+            z-index: 3;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            display: none;
+        }
+
+        /* Minimal hint area (can be toggled off) */
+        #hint {
+            position: fixed;
+            top: max(10px, env(safe-area-inset-top));
             left: 50%;
             transform: translateX(-50%);
-            color: white;
-            font-size: 20px;
-            text-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 14px;
+            z-index: 4;
             text-align: center;
-            max-width: 90%;
-        }
-
-        @media (max-width: 768px) {
-            #instructions {
-                font-size: 16px;
-                padding: 0 10px;
-            }
-
-            #completion-message {
-                font-size: 28px;
-                padding: 0 20px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            #instructions {
-                font-size: 14px;
-            }
-
-            #completion-message {
-                font-size: 24px;
-            }
-        }
-
-        #completion-message {
-            display: none;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
-            font-size: 36px;
-            line-height: 1.5;
-        }
-
-        #completion-message a {
-            color: #6581F8;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        #completion-message a:hover {
-            text-decoration: underline;
+            padding: 6px 10px;
+            background: rgba(0, 0, 0, 0.35);
+            border-radius: 8px;
+            backdrop-filter: blur(4px);
         }
     </style>
 </head>
 
 <body>
-    <div id="instructions">pinch the bubbles to pop them</div>
-    <div id="completion-message">
-        rohan panuganti<br>
-        currently working @ <a href="https://royalbookapp.com" target="_blank" id="royalbook-link">royalbook</a>
-    </div>
-    <script>
-        let videoElement;
-        let fingerPosition = { x: 0, y: 0 };
-        let smoothFingerPosition = { x: 0, y: 0 };
-        let isPinching = false;
-        let scene, camera, renderer, bubbles = [];
-        let pointer;
-        let linkPinched = false;
+    <video id="cameraVideo" playsinline autoplay muted></video>
+    <canvas id="overlay"></canvas>
+    <canvas id="maskPreview"></canvas>
+    <div id="hint"></div>
+    <script type="module">
+        import { FilesetResolver, ObjectDetector } from 'https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.0';
 
-        async function setupCamera() {
-            try {
-                // Mobile-optimized constraints
-                const constraints = {
-                    video: {
-                        facingMode: 'user', // Front camera
-                        width: { ideal: 640, max: 1280 },
-                        height: { ideal: 480, max: 720 }
-                    }
-                };
+        // --- Fullscreen camera + MediaPipe Object Detection ---
+        const videoEl = document.getElementById('cameraVideo');
+        const overlay = document.getElementById('overlay');
+        const octx = overlay.getContext('2d');
+        const hint = document.getElementById('hint');
 
-                // Try to get user media
-                const stream = await navigator.mediaDevices.getUserMedia(constraints);
-                videoElement.srcObject = stream;
+        let detector = null;
+        let lastVideoTime = -1;
+        let lastDetections = [];
+        const targetFPS = 24;
+        const frameIntervalMs = 1000 / targetFPS; // ~41.67ms
+        let lastFrameTs = 0;
 
-                return new Promise((resolve, reject) => {
-                    videoElement.onloadedmetadata = () => {
-                        // Set video size for better performance on mobile
-                        videoElement.width = videoElement.videoWidth;
-                        videoElement.height = videoElement.videoHeight;
+        function setHint(msg) {
+            hint.textContent = msg || '';
+            hint.style.display = msg ? 'block' : 'none';
+        }
 
-                        videoElement.play()
-                            .then(resolve)
-                            .catch(reject);
-                    };
+        function resizeCanvases() {
+            const dpr = Math.max(1, window.devicePixelRatio || 1);
+            overlay.width = Math.floor(window.innerWidth * dpr);
+            overlay.height = Math.floor(window.innerHeight * dpr);
+            overlay.style.width = window.innerWidth + 'px';
+            overlay.style.height = window.innerHeight + 'px';
+            octx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        }
+        window.addEventListener('resize', resizeCanvases);
 
-                    videoElement.onerror = reject;
-
-                    // Timeout after 10 seconds
-                    setTimeout(() => reject(new Error('Camera setup timeout')), 10000);
-                });
-            } catch (error) {
-                console.error('Error accessing camera:', error);
-                throw error;
+        function coverTransform() {
+            const vw = videoEl.videoWidth || 1;
+            const vh = videoEl.videoHeight || 1;
+            const sw = window.innerWidth;
+            const sh = window.innerHeight;
+            const videoAspect = vw / vh;
+            const screenAspect = sw / sh;
+            let renderW, renderH, offsetX, offsetY;
+            if (videoAspect > screenAspect) {
+                renderH = sh; renderW = sh * videoAspect;
+                offsetX = (sw - renderW) / 2; offsetY = 0;
+            } else {
+                renderW = sw; renderH = sw / videoAspect;
+                offsetX = 0; offsetY = (sh - renderH) / 2;
             }
+            return { vw, vh, sw, sh, renderW, renderH, offsetX, offsetY };
         }
 
-        function setup() {
-            // Set up touch fallback immediately
-            setupTouchFallback();
-
-            // Start immediately without button
-            startGame();
-        }
-
-        async function startGame() {
-            try {
-                document.getElementById('instructions').innerHTML = 'loading camera...';
-
-                await initializeCamera();
-                document.getElementById('instructions').innerHTML = 'pinch the bubbles to pop them';
-                initializeThreeJS();
-
-                // Create bubbles
-                for (let i = 0; i < 20; i++) {
-                    bubbles.push(new Bubble(
-                        Math.random() * 4 - 2,
-                        Math.random() * 4 - 2,
-                        Math.random() * 4 - 2,
-                        Math.random() * 0.5 + 0.2
-                    ));
-                }
-
-                animate();
-            } catch (error) {
-                console.error('Failed to initialize camera:', error);
-                // Continue without camera - use touch/mouse instead
-                document.getElementById('instructions').innerHTML = 'touch/click the bubbles to pop them';
-                initializeThreeJS();
-
-                // Create bubbles
-                for (let i = 0; i < 20; i++) {
-                    bubbles.push(new Bubble(
-                        Math.random() * 4 - 2,
-                        Math.random() * 4 - 2,
-                        Math.random() * 4 - 2,
-                        Math.random() * 0.5 + 0.2
-                    ));
-                }
-
-                animate();
+        async function initCamera() {
+            if (location.protocol !== 'https:' && location.hostname !== 'localhost' && location.hostname !== '127.0.0.1') {
+                setHint('Tip: Camera may require HTTPS or localhost.');
             }
+            const constraints = {
+                video: { facingMode: 'user', width: { ideal: 640 }, height: { ideal: 480 } },
+                audio: false
+            };
+            const stream = await navigator.mediaDevices.getUserMedia(constraints);
+            videoEl.srcObject = stream;
+            await videoEl.play();
+            resizeCanvases();
         }
 
-        async function initializeCamera() {
+        async function initDetector() {
+            setHint('Loading detector…');
+            const vision = await FilesetResolver.forVisionTasks(
+                'https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.0/wasm'
+            );
+            detector = await ObjectDetector.createFromOptions(vision, {
+                baseOptions: {
+                    modelAssetPath: 'https://storage.googleapis.com/mediapipe-models/object_detector/efficientdet_lite0/float16/1/efficientdet_lite0.tflite'
+                },
+                scoreThreshold: 0.40,
+                maxResults: 50,
+                runningMode: 'VIDEO'
+            });
+            setHint('Detecting objects…');
+        }
+
+        function drawDetections(detections) {
+            octx.clearRect(0, 0, overlay.width, overlay.height);
+            const tx = coverTransform();
+            const toScreen = (x, y) => {
+                const sx = tx.offsetX + (x / tx.vw) * tx.renderW;
+                const sy = tx.offsetY + (y / tx.vh) * tx.renderH;
+                return [sx, sy];
+            };
+
+            octx.strokeStyle = '#00c9ff';
+            octx.lineWidth = 2;
+            octx.font = '14px Nunito, system-ui, -apple-system, sans-serif';
+            octx.fillStyle = '#ffffff';
+
+            const centers = [];
+            for (const det of detections || []) {
+                const bb = det.boundingBox; // originX, originY, width, height
+                const [x1, y1] = toScreen(bb.originX, bb.originY);
+                const [x2, y2] = toScreen(bb.originX + bb.width, bb.originY + bb.height);
+                const w = x2 - x1, h = y2 - y1;
+                octx.strokeRect(x1, y1, w, h);
+                const [cx, cy] = toScreen(bb.originX + bb.width / 2, bb.originY + bb.height / 2);
+                centers.push({ x: cx, y: cy });
+                const cat = (det.categories && det.categories[0]) || {};
+                const name = cat.categoryName || 'object';
+                const score = cat.score != null ? ` ${(cat.score * 100).toFixed(1)}%` : '';
+                const label = `${name}${score}`;
+                octx.fillText(label, x1 + 4, y1 - 6 < 0 ? y1 + 14 : y1 - 6);
+            }
+
+            // Connect by ascending Y
+            centers.sort((a, b) => a.y - b.y);
+            octx.strokeStyle = 'rgba(255,255,255,0.8)';
+            octx.lineWidth = 1;
+            octx.beginPath();
+            for (let i = 0; i < centers.length; i++) {
+                const c = centers[i];
+                if (i === 0) octx.moveTo(c.x, c.y); else octx.lineTo(c.x, c.y);
+            }
+            octx.stroke();
+        }
+
+        async function main() {
             try {
-                // Initialize video for hand tracking
-                videoElement = document.createElement('video');
-                videoElement.style.display = 'none';
-                videoElement.setAttribute('playsinline', ''); // Important for iOS
-                videoElement.setAttribute('autoplay', '');
-                videoElement.setAttribute('muted', '');
-                document.body.appendChild(videoElement);
+                await initCamera();
+                await initDetector();
+            } catch (e) {
+                console.error(e);
+                setHint('Initialization failed. Check permissions/HTTPS.');
+                return;
+            }
 
-                const hands = new Hands({
-                    locateFile: (file) => {
-                        return `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`;
-                    }
-                });
-                hands.setOptions({
-                    maxNumHands: 1,
-                    modelComplexity: 1,
-                    minDetectionConfidence: 0.5,
-                    minTrackingConfidence: 0.5
-                });
-
-                hands.onResults(onResults);
-
-                await setupCamera();
-
-                const processFrame = async () => {
-                    if (videoElement.readyState >= 2) {
-                        try {
-                            await hands.send({ image: videoElement });
-                        } catch (e) {
-                            // Silently handle frame processing errors
+            function loop(nowTs) {
+                if (!detector) { requestAnimationFrame(loop); return; }
+                if (videoEl.readyState >= 2) {
+                    // Throttle to target FPS
+                    if (!lastFrameTs || nowTs - lastFrameTs >= frameIntervalMs) {
+                        const mpNow = performance.now();
+                        if (videoEl.currentTime !== lastVideoTime) {
+                            const result = detector.detectForVideo(videoEl, mpNow);
+                            lastDetections = result?.detections || [];
+                            lastVideoTime = videoEl.currentTime;
                         }
+                        drawDetections(lastDetections);
+                        lastFrameTs = nowTs;
+                    } else {
+                        // Still draw last results to keep UI responsive
+                        drawDetections(lastDetections);
                     }
-                    requestAnimationFrame(processFrame);
-                };
-                processFrame();
-            } catch (error) {
-                console.error('Camera initialization failed:', error);
-                throw error;
-            }
-        }
-
-        function initializeThreeJS() {
-            // Initialize Three.js
-            scene = new THREE.Scene();
-            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-            camera.position.z = 5;
-
-            renderer = new THREE.WebGLRenderer();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            document.body.appendChild(renderer.domElement);
-
-            // Add lighting
-            const light = new THREE.PointLight(0xffffff, 1, 100);
-            light.position.set(10, 10, 10);
-            scene.add(light);
-
-            // Create pointer indicator
-            const pointerGeometry = new THREE.SphereGeometry(0.05, 32, 32);
-            const pointerMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 });
-            pointer = new THREE.Mesh(pointerGeometry, pointerMaterial);
-            scene.add(pointer);
-        }
-
-        function onResults(results) {
-            if (results.multiHandLandmarks && results.multiHandLandmarks.length > 0) {
-                const handLandmarks = results.multiHandLandmarks[0];
-                const fingerTip = handLandmarks[8];
-                const thumbTip = handLandmarks[4];
-
-                fingerPosition.x = (1 - fingerTip.x) * window.innerWidth;
-                fingerPosition.y = fingerTip.y * window.innerHeight;
-
-                const dx = (fingerTip.x - thumbTip.x) * window.innerWidth;
-                const dy = (fingerTip.y - thumbTip.y) * window.innerHeight;
-                isPinching = Math.sqrt(dx * dx + dy * dy) < 50;
-            }
-        }
-
-        // Touch fallback for devices where camera doesn't work
-        let isTouching = false;
-        let touchPosition = { x: 0, y: 0 };
-
-        function setupTouchFallback() {
-            document.addEventListener('touchstart', (e) => {
-                e.preventDefault();
-                isTouching = true;
-                const touch = e.touches[0];
-                touchPosition.x = touch.clientX;
-                touchPosition.y = touch.clientY;
-                fingerPosition.x = touch.clientX;
-                fingerPosition.y = touch.clientY;
-                isPinching = true;
-            });
-
-            document.addEventListener('touchmove', (e) => {
-                e.preventDefault();
-                if (isTouching) {
-                    const touch = e.touches[0];
-                    touchPosition.x = touch.clientX;
-                    touchPosition.y = touch.clientY;
-                    fingerPosition.x = touch.clientX;
-                    fingerPosition.y = touch.clientY;
                 }
-            });
-
-            document.addEventListener('touchend', (e) => {
-                e.preventDefault();
-                isTouching = false;
-                isPinching = false;
-            });
-
-            // Also add mouse support for desktop
-            document.addEventListener('mousedown', (e) => {
-                isTouching = true;
-                fingerPosition.x = e.clientX;
-                fingerPosition.y = e.clientY;
-                isPinching = true;
-            });
-
-            document.addEventListener('mousemove', (e) => {
-                if (isTouching) {
-                    fingerPosition.x = e.clientX;
-                    fingerPosition.y = e.clientY;
-                }
-            });
-
-            document.addEventListener('mouseup', () => {
-                isTouching = false;
-                isPinching = false;
-            });
+                requestAnimationFrame(loop);
+            }
+            requestAnimationFrame(loop);
         }
 
-        function animate() {
-            requestAnimationFrame(animate);
-
-            // Smooth finger tracking
-            smoothFingerPosition.x = lerp(smoothFingerPosition.x, fingerPosition.x, 0.1);
-            smoothFingerPosition.y = lerp(smoothFingerPosition.y, fingerPosition.y, 0.1);
-
-            // Update pointer position
-            const normalizedX = (smoothFingerPosition.x / window.innerWidth) * 2 - 1;
-            const normalizedY = -(smoothFingerPosition.y / window.innerHeight) * 2 + 1;
-            pointer.position.set(normalizedX * 2, normalizedY * 2, 0);
-
-            bubbles.forEach((bubble, i) => {
-                bubble.update();
-                bubble.show();
-                if (isPinching && bubble.contains(normalizedX, normalizedY)) {
-                    scene.remove(bubble.mesh);
-                    bubbles.splice(i, 1);
-                }
-            });
-
-            // Check if all bubbles are popped
-            if (bubbles.length === 0) {
-                document.getElementById('instructions').style.display = 'none';
-                document.getElementById('completion-message').style.display = 'block';
-
-                // Check if user pinches the "royalbook" link
-                const linkElement = document.getElementById('royalbook-link');
-                const linkBounds = linkElement.getBoundingClientRect();
-                if (
-                    isPinching &&
-                    smoothFingerPosition.x > linkBounds.left &&
-                    smoothFingerPosition.x < linkBounds.right &&
-                    smoothFingerPosition.y > linkBounds.top &&
-                    smoothFingerPosition.y < linkBounds.bottom &&
-                    !linkPinched
-                ) {
-                    linkPinched = true;
-                    window.open(linkElement.href, '_blank');
-                }
-            }
-
-            renderer.render(scene, camera);
-        }
-
-        class Bubble {
-            constructor(x, y, z, size) {
-                this.x = x;
-                this.y = y;
-                this.z = z;
-                this.size = size;
-
-                const geometry = new THREE.SphereGeometry(this.size, 32, 32);
-                const material = new THREE.MeshStandardMaterial({ color: 0x0077ff, transparent: true, opacity: 0.7 });
-                this.mesh = new THREE.Mesh(geometry, material);
-
-                this.mesh.position.set(this.x, this.y, this.z);
-                this.velocity = new THREE.Vector3(
-                    (Math.random() - 0.5) * 0.02,
-                    (Math.random() - 0.5) * 0.02,
-                    (Math.random() - 0.5) * 0.02
-                );
-                scene.add(this.mesh);
-            }
-
-            update() {
-                this.mesh.position.add(this.velocity);
-
-                // Bounce off the walls
-                if (this.mesh.position.x > 2 || this.mesh.position.x < -2) this.velocity.x *= -1;
-                if (this.mesh.position.y > 2 || this.mesh.position.y < -2) this.velocity.y *= -1;
-                if (this.mesh.position.z > 2 || this.mesh.position.z < -2) this.velocity.z *= -1;
-            }
-
-            show() {
-                // Rendering handled by Three.js
-            }
-
-            contains(normalizedX, normalizedY) {
-                const bubblePos = new THREE.Vector3().setFromMatrixPosition(this.mesh.matrixWorld);
-                const dist = Math.sqrt(
-                    Math.pow(bubblePos.x - normalizedX * 2, 2) +
-                    Math.pow(bubblePos.y - normalizedY * 2, 2)
-                );
-                return dist < this.size;
-            }
-        }
-
-        function lerp(start, end, amt) {
-            return (1 - amt) * start + amt * end;
-        }
-
-        setup();
+        main();
     </script>
 </body>
 
